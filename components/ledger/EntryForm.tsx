@@ -109,9 +109,9 @@ export function EntryForm({
         </div>
 
         <div className="mb-4">
-          <FieldLabel colorClassName="text-[#a15a68]">to sort</FieldLabel>
+          <FieldLabel colorClassName="text-[#a15a68]">on my mind</FieldLabel>
           <AutoGrowTextarea
-            placeholder="What's still open?"
+            placeholder="What's on your mind?"
             value={fields.toSort}
             onChange={(value) => handleChange("toSort", value)}
             className="mb-1.5 w-full border-0 border-b border-mountain/15 bg-transparent px-0.5 py-[9px] font-sans text-base leading-normal text-mountain placeholder:text-mountain/40 focus:border-ember focus:outline-none"
