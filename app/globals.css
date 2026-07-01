@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  @apply bg-dusk text-paper;
+}
+
+:focus-visible {
+  outline: 2px solid theme("colors.ember");
+  outline-offset: 2px;
+}
+
+@layer utilities {
+  .tally-stroke {
+    stroke: theme("colors.ember");
+    stroke-width: 3;
+    stroke-linecap: round;
+    fill: none;
+  }
+  .tally-slash {
+    stroke: theme("colors.ember");
+    stroke-width: 3;
+    stroke-linecap: round;
+    fill: none;
+  }
+  .tally-empty {
+    stroke: rgba(59, 89, 106, 0.2);
+    stroke-width: 3;
+    stroke-linecap: round;
+    fill: none;
+  }
+}

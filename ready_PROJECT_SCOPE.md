@@ -79,7 +79,7 @@ Covered under 3.6. Flagged separately here since it wasn't in the original scope
 ## 5. Tech Stack (proposed)
 - **Frontend**: Next.js 14 (App Router) + TypeScript + Tailwind CSS, deployed on Vercel
 - **Backend**: Next.js API routes (co-located)
-- **Database**: Postgres — provider still undecided (Railway vs. a Vercel-native Neon instance). Flag this to the project owner before assuming either.
+- **Database**: Postgres — Railway (decided).
 - **ORM**: Prisma
 - **Animation**: Framer Motion
 - **Charts**: none in current scope (see 3.6)
