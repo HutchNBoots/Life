@@ -13,7 +13,7 @@ export function CompanionHeader({
   return (
     <Link href="/spirits" className="mb-[18px] flex items-center gap-3.5">
       <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-paper">
-        {companionName && <SpiritIcon name={companionName} className="h-8 w-8" />}
+        {companionName && <SpiritIcon name={companionName} className="h-[52px] w-[52px]" />}
       </div>
       <div>
         <div className="mb-[3px] font-display text-[44px] leading-tight text-paper">{profileName}</div>
