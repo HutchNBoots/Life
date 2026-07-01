@@ -36,9 +36,9 @@ export function PickerScreen({ profiles }: { profiles: { id: string; name: strin
       </div>
 
       <div className="mb-1.5 text-center">
-        <span className="font-display text-[40px] text-ember">Life</span>
+        <span className="font-display text-[40px] text-ember">Life Micro Journal</span>
       </div>
-      <div className="mb-4 text-center font-display text-lg italic text-[rgba(255,218,185,0.5)]">
+      <div className="mb-4 text-center font-display text-2xl italic text-[rgba(255,218,185,0.5)]">
         capture the small joys of the day
       </div>
       <div className="mb-7 text-center text-base text-[rgba(255,218,185,0.6)]">Who&rsquo;s living today?</div>
