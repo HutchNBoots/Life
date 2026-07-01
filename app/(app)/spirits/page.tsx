@@ -10,7 +10,7 @@ export default async function SpiritsPage() {
   const unlockedCount = tiers.filter((t) => t.unlocked).length;
 
   return (
-    <div className="flex-1 overflow-y-auto pb-2">
+    <div className="no-scrollbar flex-1 overflow-y-auto pb-2">
       <div className="mb-1 font-display text-[44px] leading-tight text-paper">Your spirits</div>
       <div className="mb-5 text-base text-[rgba(255,218,185,0.55)]">
         {unlockedCount} of {tiers.length} earned — kept even if a streak breaks.

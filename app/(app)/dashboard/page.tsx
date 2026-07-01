@@ -19,7 +19,7 @@ export default async function DashboardPage() {
   ]);
 
   return (
-    <div className="flex-1 overflow-y-auto pb-2">
+    <div className="no-scrollbar flex-1 overflow-y-auto pb-2">
       <CompanionHeader
         profileName={profile.name}
         companionName={spirits.companion?.name ?? null}

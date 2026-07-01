@@ -3,7 +3,7 @@ import { ScienceContent } from "@/components/science/ScienceContent";
 
 export default function SciencePage() {
   return (
-    <div className="flex-1 overflow-y-auto pb-2">
+    <div className="no-scrollbar flex-1 overflow-y-auto pb-2">
       <div className="relative mb-5 overflow-hidden rounded-card leading-none">
         <Image src="/images/splash-2-pasture.jpg" alt="" width={1344} height={262} className="block w-full" />
         <div

@@ -83,7 +83,7 @@ export function EntryForm({
 
   return (
     <div
-      className="flex min-h-0 flex-1 flex-col overflow-y-auto rounded-card bg-paper text-mountain transition-shadow duration-300"
+      className="no-scrollbar flex min-h-0 flex-1 flex-col overflow-y-auto rounded-card bg-paper text-mountain transition-shadow duration-300"
       style={glow ? { boxShadow: "0 0 0 1px rgba(217,123,79,0.6), 0 0 24px rgba(217,123,79,0.35)" } : undefined}
     >
       <div className="sticky top-0 z-[2] flex flex-shrink-0 items-start justify-between border-b border-mountain/15 bg-paper px-5 pb-4 pt-5">

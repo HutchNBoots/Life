@@ -13,6 +13,13 @@ body {
 }
 
 @layer utilities {
+  .no-scrollbar {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* old Edge/IE */
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome/Safari/newer Edge */
+  }
   .tally-stroke {
     stroke: theme("colors.ember");
     stroke-width: 3;
