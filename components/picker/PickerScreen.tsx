@@ -26,7 +26,9 @@ export function PickerScreen({ profiles }: { profiles: { id: string; name: strin
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-[400px] flex-col px-4 pt-1">
       <div className="relative mb-6 overflow-hidden rounded-card leading-none">
-        <Image src="/images/splash.jpg" alt="" width={1344} height={784} priority className="block w-full" />
+        <Image src="/images/splash-1-coast.jpg" alt="" width={1344} height={261} priority className="block w-full" />
+        <Image src="/images/splash-2-pasture.jpg" alt="" width={1344} height={262} priority className="block w-full" />
+        <Image src="/images/splash-3-forest.jpg" alt="" width={1344} height={261} priority className="block w-full" />
         <div
           className="pointer-events-none absolute inset-0"
           style={{ background: "linear-gradient(to bottom, rgba(36,52,61,0) 55%, #24343D 100%)" }}
