@@ -5,7 +5,7 @@ import { PrismaPg } from "@prisma/adapter-pg";
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 const prisma = new PrismaClient({ adapter });
 
-const PROFILES = ["Alex", "Sam", "Jo"];
+const PROFILES = ["Alex", "Sam", "Jo", "Lex"];
 
 const DEFAULT_GOALS = ["avoided sugar", "no wine"];
 

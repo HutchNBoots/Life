@@ -31,21 +31,21 @@ export function SettingsScreen({
   return (
     <div className="flex-1 overflow-y-auto pb-2">
       <div className="mb-1 font-display text-[44px] leading-tight text-paper">Settings</div>
-      <div className="mb-5 text-xs text-[rgba(255,218,185,0.55)]">Signed in as {profileName}</div>
+      <div className="mb-5 text-base text-[rgba(255,218,185,0.55)]">Signed in as {profileName}</div>
 
       <div className="mb-6">
-        <div className="mb-2.5 text-[11px] uppercase tracking-[.09em] text-[rgba(255,218,185,0.5)]">Your goals</div>
+        <div className="mb-2.5 text-base uppercase tracking-[.09em] text-[rgba(255,218,185,0.5)]">Your goals</div>
         {goals.map((goal) => (
           <GoalEditRow key={goal.id} id={goal.id} label={goal.label} />
         ))}
       </div>
 
       <div className="mb-6">
-        <div className="mb-2.5 text-[11px] uppercase tracking-[.09em] text-[rgba(255,218,185,0.5)]">Motion & haptics</div>
+        <div className="mb-2.5 text-base uppercase tracking-[.09em] text-[rgba(255,218,185,0.5)]">Motion & haptics</div>
         <div className="mb-2 flex items-center justify-between rounded-[10px] border border-[rgba(255,218,185,0.14)] bg-dusk-raised px-4 py-3.5">
           <div>
-            <div className="text-sm text-paper">Full motion</div>
-            <div className="mt-0.5 text-[11px] text-[rgba(255,218,185,0.45)]">Tally strokes and stamp animation</div>
+            <div className="text-base text-paper">Full motion</div>
+            <div className="mt-0.5 text-base text-[rgba(255,218,185,0.45)]">Tally strokes and stamp animation</div>
           </div>
           <PrefToggle
             on={fullMotion}
@@ -57,8 +57,8 @@ export function SettingsScreen({
         </div>
         <div className="mb-2 flex items-center justify-between rounded-[10px] border border-[rgba(255,218,185,0.14)] bg-dusk-raised px-4 py-3.5">
           <div>
-            <div className="text-sm text-paper">Haptics</div>
-            <div className="mt-0.5 text-[11px] text-[rgba(255,218,185,0.45)]">Short pulse on save</div>
+            <div className="text-base text-paper">Haptics</div>
+            <div className="mt-0.5 text-base text-[rgba(255,218,185,0.45)]">Short pulse on save</div>
           </div>
           <PrefToggle
             on={hapticsOn}
@@ -71,11 +71,11 @@ export function SettingsScreen({
       </div>
 
       <div className="mb-6">
-        <div className="mb-2.5 text-[11px] uppercase tracking-[.09em] text-[rgba(255,218,185,0.5)]">Device</div>
+        <div className="mb-2.5 text-base uppercase tracking-[.09em] text-[rgba(255,218,185,0.5)]">Device</div>
         <button
           type="button"
           onClick={switchProfile}
-          className="w-full rounded-[10px] border border-[rgba(255,218,185,0.14)] bg-transparent py-3.5 text-center text-[13px] text-[rgba(255,218,185,0.7)]"
+          className="w-full rounded-[10px] border border-[rgba(255,218,185,0.14)] bg-transparent py-3.5 text-center text-base text-[rgba(255,218,185,0.7)]"
         >
           Switch profile
         </button>

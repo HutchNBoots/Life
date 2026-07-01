@@ -1,9 +1,21 @@
 /**
- * Simplified single-line placeholder badge icons (mountain-ink strokes),
- * matching the style established in ready_prototype.html's badgeSvg().
- * Not final art — see ready_BACKLOG.md Epic 8. The 3 icons for the newer
- * tiers (wren, badger, fox) are drawn in the same style to fill the gap.
+ * Real hand-picked artwork (mountain-ink line art, transparent background,
+ * extracted from the project owner's uploaded reference images) for the
+ * tiers that have it. Falls back to the simplified placeholder SVG strokes
+ * below for tiers without real art yet — see ready_BACKLOG.md Epic 8.
  */
+const IMAGE_ICONS = new Set([
+  "otter",
+  "wren",
+  "panda",
+  "badger",
+  "fox",
+  "pelican",
+  "sloth",
+  "owl",
+  "capybara",
+  "flamingo",
+]);
 const S = { stroke: "#3B596A", strokeWidth: 2.4, fill: "none", strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
 const DOT = { fill: "#3B596A" };
 
@@ -139,6 +151,12 @@ export const SPIRIT_ICON_BY_NAME: Record<string, string> = {
 
 export function SpiritIcon({ name, className }: { name: string; className?: string }) {
   const icon = SPIRIT_ICON_BY_NAME[name];
+
+  if (icon && IMAGE_ICONS.has(icon)) {
+    // eslint-disable-next-line @next/next/no-img-element -- variable-sized badge container, not a fixed-dimension LCP image
+    return <img src={`/images/spirits/${icon}.png`} alt="" className={`object-contain ${className ?? ""}`} />;
+  }
+
   return (
     <svg viewBox="0 0 40 40" className={className} aria-hidden="true">
       {icon ? ICONS[icon] : null}

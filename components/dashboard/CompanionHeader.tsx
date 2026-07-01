@@ -17,7 +17,7 @@ export function CompanionHeader({
       </div>
       <div>
         <div className="mb-[3px] font-display text-[44px] leading-tight text-paper">{profileName}</div>
-        <div className="font-mono text-[11px] text-[rgba(255,218,185,0.55)]">
+        <div className="font-mono text-base text-[rgba(255,218,185,0.55)]">
           {companionName && <span className="text-ember">{companionName}</span>}
           {companionName && " · "}
           {companionCopy}

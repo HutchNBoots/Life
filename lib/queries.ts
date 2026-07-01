@@ -106,8 +106,12 @@ export async function getSpiritSummary(profileId: string) {
     unlocked: longest >= tier.streakDayThreshold,
   }));
 
-  const companion = [...tierList].reverse().find((t) => current >= t.day) ?? null;
-  const next = tierList.find((t) => t.day > current) ?? null;
+  const matchedTier = [...tierList].reverse().find((t) => current >= t.day) ?? null;
+  // Default to the first tier before any streak exists, so the dashboard
+  // always has a companion to show rather than a blank badge. In that case
+  // "next" skips past it too, since it's already the one being shown.
+  const companion = matchedTier ?? tierList[0] ?? null;
+  const next = matchedTier ? tierList.find((t) => t.day > current) ?? null : tierList[1] ?? null;
 
   return {
     current,

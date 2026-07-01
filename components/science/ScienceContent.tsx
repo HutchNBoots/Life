@@ -44,14 +44,14 @@ export function ScienceContent() {
         <div key={section.heading} className="mb-[26px]">
           <div className="mb-2 font-display text-[34px] leading-[1.15] text-paper">{section.heading}</div>
           {section.paragraphs.map((p, i) => (
-            <p key={i} className="mb-2.5 text-[13.5px] leading-[1.65] text-[rgba(255,218,185,0.8)]">
+            <p key={i} className="mb-2.5 text-base leading-[1.65] text-[rgba(255,218,185,0.8)]">
               {p}
             </p>
           ))}
-          <div className="font-mono text-[11px] text-[rgba(255,218,185,0.4)]">{section.citation}</div>
+          <div className="font-mono text-base text-[rgba(255,218,185,0.4)]">{section.citation}</div>
         </div>
       ))}
-      <div className="rounded-r-[10px] border-l-[3px] border-ember bg-dusk-raised px-3.5 py-3 text-[12.5px] leading-[1.6] text-[rgba(255,218,185,0.75)]">
+      <div className="rounded-r-[10px] border-l-[3px] border-ember bg-dusk-raised px-3.5 py-3 text-base leading-[1.6] text-[rgba(255,218,185,0.75)]">
         {NOTE}
       </div>
     </div>

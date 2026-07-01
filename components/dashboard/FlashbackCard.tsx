@@ -35,13 +35,13 @@ export function FlashbackCard() {
       onClick={roll}
       className="mb-[18px] w-full cursor-pointer rounded-card border border-[rgba(255,218,185,0.14)] bg-dusk-raised p-4 text-left"
     >
-      <div className="mb-[9px] text-[10px] uppercase tracking-[.09em] text-ember">From the journal</div>
+      <div className="mb-[9px] text-base uppercase tracking-[.09em] text-ember">From the journal</div>
       <motion.div
         key={entry?.text ?? "empty"}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.15 }}
-        className="mb-2 font-display text-[15.5px] italic leading-[1.45] text-paper"
+        className="mb-2 font-display text-lg italic leading-[1.45] text-paper"
       >
         {entry === undefined
           ? " "
@@ -50,7 +50,7 @@ export function FlashbackCard() {
             : `“${entry.text}”`}
       </motion.div>
       {entry && (
-        <div className="font-mono text-[10.5px] text-[rgba(255,218,185,0.4)]">
+        <div className="font-mono text-base text-[rgba(255,218,185,0.4)]">
           {formatShortDate(entry.date)} · tap for another
         </div>
       )}

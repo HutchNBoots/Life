@@ -29,7 +29,7 @@ export function StampToggle({
       onClick={handleClick}
       animate={stamping && !shouldReduceMotion ? { scale: 0.94, rotate: -2 } : { scale: 1, rotate: 0 }}
       transition={{ duration: 0.15, ease: "easeOut" }}
-      className={`flex flex-1 items-center gap-2 rounded-[10px] border px-3 py-[11px] text-[13px] font-sans transition-colors ${
+      className={`flex flex-1 items-center gap-2 rounded-[10px] border px-3 py-[11px] text-base font-sans transition-colors ${
         achieved
           ? "border-pebble bg-pebble/10 text-mountain"
           : "border-mountain/15 bg-transparent text-mountain"

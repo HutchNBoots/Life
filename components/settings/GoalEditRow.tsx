@@ -35,15 +35,15 @@ export function GoalEditRow({ id, label }: { id: string; label: string }) {
           onChange={(e) => setValue(e.target.value)}
           onBlur={commit}
           onKeyDown={(e) => e.key === "Enter" && commit()}
-          className="w-[130px] border-0 border-b border-ember bg-transparent font-sans text-sm text-paper outline-none"
+          className="w-[130px] border-0 border-b border-ember bg-transparent font-sans text-base text-paper outline-none"
         />
       ) : (
-        <div className="text-sm text-paper">{saved}</div>
+        <div className="text-base text-paper">{saved}</div>
       )}
       <button
         type="button"
         onClick={() => setEditing(true)}
-        className="font-mono text-[13px] text-ember"
+        className="font-mono text-base text-ember"
       >
         edit
       </button>

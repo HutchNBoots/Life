@@ -28,7 +28,7 @@ export default async function DashboardPage() {
       <FlashbackCard />
       <StreakStrip current={spirits.current} longest={spirits.longest} />
       <DayStatusBanner dayComplete={dayComplete} />
-      <div className="mb-2.5 text-[11px] uppercase tracking-[.09em] text-[rgba(255,218,185,0.55)]">Calendar</div>
+      <div className="mb-2.5 text-base uppercase tracking-[.09em] text-[rgba(255,218,185,0.55)]">Calendar</div>
       <CalendarGrid monthAnchor={today} days={calendar.days} goalCount={calendar.goalCount} />
     </div>
   );

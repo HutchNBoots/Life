@@ -88,7 +88,7 @@ export function EntryForm({
       <div className="sticky top-0 z-[2] flex flex-shrink-0 items-start justify-between border-b border-mountain/15 bg-paper px-5 pb-4 pt-5">
         <div>
           <div className="font-display text-[40px] font-semibold leading-tight text-mountain">{dateLabel}</div>
-          <div className="mt-0.5 text-[11px] text-mountain/55">{profileName}</div>
+          <div className="mt-0.5 text-base text-mountain/55">{profileName}</div>
         </div>
         <TallyCluster filledCount={filledCount} />
       </div>
@@ -103,7 +103,7 @@ export function EntryForm({
               placeholder={["One good thing…", "Another…", "And another…"][i]}
               value={fields[field]}
               onChange={(e) => handleChange(field, e.target.value)}
-              className="mb-1.5 w-full border-0 border-b border-mountain/15 bg-transparent px-0.5 py-[9px] font-sans text-[15px] text-mountain placeholder:text-mountain/40 focus:border-ember focus:outline-none"
+              className="mb-1.5 w-full border-0 border-b border-mountain/15 bg-transparent px-0.5 py-[9px] font-sans text-base text-mountain placeholder:text-mountain/40 focus:border-ember focus:outline-none"
             />
           ))}
         </div>
@@ -115,7 +115,7 @@ export function EntryForm({
             placeholder="What's still open?"
             value={fields.toSort}
             onChange={(e) => handleChange("toSort", e.target.value)}
-            className="mb-1.5 w-full border-0 border-b border-mountain/15 bg-transparent px-0.5 py-[9px] font-sans text-[15px] text-mountain placeholder:text-mountain/40 focus:border-ember focus:outline-none"
+            className="mb-1.5 w-full border-0 border-b border-mountain/15 bg-transparent px-0.5 py-[9px] font-sans text-base text-mountain placeholder:text-mountain/40 focus:border-ember focus:outline-none"
           />
         </div>
 
@@ -126,7 +126,7 @@ export function EntryForm({
             placeholder="What got resolved?"
             value={fields.sorted}
             onChange={(e) => handleChange("sorted", e.target.value)}
-            className="mb-1.5 w-full border-0 border-b border-mountain/15 bg-transparent px-0.5 py-[9px] font-sans text-[15px] text-mountain placeholder:text-mountain/40 focus:border-ember focus:outline-none"
+            className="mb-1.5 w-full border-0 border-b border-mountain/15 bg-transparent px-0.5 py-[9px] font-sans text-base text-mountain placeholder:text-mountain/40 focus:border-ember focus:outline-none"
           />
         </div>
 
@@ -141,7 +141,7 @@ export function EntryForm({
           ))}
         </div>
 
-        <div className="mt-3.5 min-h-[16px] font-mono text-xs text-mountain/55">{status}</div>
+        <div className="mt-3.5 min-h-[16px] font-mono text-base text-mountain/55">{status}</div>
       </div>
     </div>
   );
