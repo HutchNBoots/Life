@@ -4,7 +4,7 @@ import { getCurrentProfileId } from "@/lib/session";
 import { PickerScreen } from "@/components/picker/PickerScreen";
 
 export default async function PickerPage() {
-  if (getCurrentProfileId()) redirect("/today");
+  if (getCurrentProfileId()) redirect("/dashboard");
 
   const profiles = await prisma.profile.findMany({
     orderBy: { sortOrder: "asc" },

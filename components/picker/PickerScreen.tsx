@@ -16,7 +16,7 @@ export function PickerScreen({ profiles }: { profiles: { id: string; name: strin
       body: JSON.stringify({ profileId }),
     });
     if (res.ok) {
-      router.push("/today");
+      router.push("/dashboard");
       router.refresh();
     } else {
       setPending(null);
