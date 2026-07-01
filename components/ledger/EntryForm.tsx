@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { TallyCluster } from "./TallyCluster";
 import { StampToggle } from "./StampToggle";
 import { FieldLabel } from "./FieldLabel";
+import { AutoGrowTextarea } from "./AutoGrowTextarea";
 import { haptic } from "@/lib/haptics";
 import type { GoalWithTodayState } from "@/lib/queries";
 
@@ -95,38 +96,35 @@ export function EntryForm({
 
       <div className="px-5 pb-6 pt-4">
         <div className="mb-4">
-          <FieldLabel colorClassName="text-ember">good things</FieldLabel>
+          <FieldLabel colorClassName="text-ember">good things today</FieldLabel>
           {(["goodThing1", "goodThing2", "goodThing3"] as const).map((field, i) => (
-            <input
+            <AutoGrowTextarea
               key={field}
-              type="text"
               placeholder={["One good thing…", "Another…", "And another…"][i]}
               value={fields[field]}
-              onChange={(e) => handleChange(field, e.target.value)}
-              className="mb-1.5 w-full border-0 border-b border-mountain/15 bg-transparent px-0.5 py-[9px] font-sans text-base text-mountain placeholder:text-mountain/40 focus:border-ember focus:outline-none"
+              onChange={(value) => handleChange(field, value)}
+              className="mb-1.5 w-full border-0 border-b border-mountain/15 bg-transparent px-0.5 py-[9px] font-sans text-base leading-normal text-mountain placeholder:text-mountain/40 focus:border-ember focus:outline-none"
             />
           ))}
         </div>
 
         <div className="mb-4">
           <FieldLabel colorClassName="text-[#a15a68]">to sort</FieldLabel>
-          <input
-            type="text"
+          <AutoGrowTextarea
             placeholder="What's still open?"
             value={fields.toSort}
-            onChange={(e) => handleChange("toSort", e.target.value)}
-            className="mb-1.5 w-full border-0 border-b border-mountain/15 bg-transparent px-0.5 py-[9px] font-sans text-base text-mountain placeholder:text-mountain/40 focus:border-ember focus:outline-none"
+            onChange={(value) => handleChange("toSort", value)}
+            className="mb-1.5 w-full border-0 border-b border-mountain/15 bg-transparent px-0.5 py-[9px] font-sans text-base leading-normal text-mountain placeholder:text-mountain/40 focus:border-ember focus:outline-none"
           />
         </div>
 
         <div className="mb-4">
           <FieldLabel colorClassName="text-pebble">sorted</FieldLabel>
-          <input
-            type="text"
+          <AutoGrowTextarea
             placeholder="What got resolved?"
             value={fields.sorted}
-            onChange={(e) => handleChange("sorted", e.target.value)}
-            className="mb-1.5 w-full border-0 border-b border-mountain/15 bg-transparent px-0.5 py-[9px] font-sans text-base text-mountain placeholder:text-mountain/40 focus:border-ember focus:outline-none"
+            onChange={(value) => handleChange("sorted", value)}
+            className="mb-1.5 w-full border-0 border-b border-mountain/15 bg-transparent px-0.5 py-[9px] font-sans text-base leading-normal text-mountain placeholder:text-mountain/40 focus:border-ember focus:outline-none"
           />
         </div>
 
