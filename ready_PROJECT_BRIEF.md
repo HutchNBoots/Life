@@ -18,7 +18,7 @@ No real authentication. A simple profile picker (3 fixed names) on first load, r
 
 ## Tech stack (proposed)
 - Next.js 14 (App Router) + TypeScript + Tailwind — Vercel
-- Postgres — Railway (still open, see Open Items)
+- Postgres — Railway (decided)
 - Prisma ORM
 - Framer Motion for animation
 - Custom SVG chart component — **note: the dashboard's monthly bar graph was cut this session as redundant with the calendar. No chart library is needed for the current scope.**
@@ -93,8 +93,8 @@ Anything without a `ready_` prefix (`PROJECT_BRIEF.md`, `CLAUDE.md`, `prototype.
 Full UX pass complete across all six screens, interactive prototype built and iterated on repeatedly (palette, nav, dashboard composition, sticky entry header, splash image). Not yet pushed to GitHub or opened in Claude Code — that's the next step.
 
 ## Open items / things to revisit
-- **Postgres provider**: Railway vs. a Vercel-native Postgres (Neon) — still undecided, flagged in the original brief and still open.
-- **Binary goals scope**: per-person vs. shared across the pilot — still undecided (current recommendation unchanged: per-person).
+- **Postgres provider**: resolved — Railway.
+- **Binary goals scope**: resolved — per-person, matching the original recommendation.
 - **"From the journal" flashback needs a real API.** It's currently a hardcoded sample pool in the prototype. Production version needs an endpoint that returns a random `DailyEntry.good_thing_*` from a past day, scoped to the current profile.
 - **AI-generated weekly/monthly recap ("journal summary")**: discussed as a longer-term direction (an AI-written feel-good summary of a week/month's good things and sorted items). This directly conflicts with the original `PROJECT_SCOPE.md`, which explicitly excludes "AI-generated prompts or reflections." Decision needed: is this in scope for a later phase, or does the scope doc need to change? Recommendation: **defer** — it needs a real backend (this POC doesn't have one yet) and an LLM integration, and it's the single easiest place in this app to slip into the generic "AI wellness app" tone the whole project has been designed to avoid. Sequence it after the core loop (Epic 1–6) is actually built and in use.
 - **Dev section in Settings is not a real feature.** It's a screen-jump menu for design review, folded into Settings this session so it wouldn't clutter the app with a second nav bar. It must not ship to the pilot — flag for removal or feature-flagging before any real deployment.

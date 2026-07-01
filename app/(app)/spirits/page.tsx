@@ -1,0 +1,21 @@
+import { getCurrentProfile } from "@/lib/session";
+import { getSpiritSummary } from "@/lib/queries";
+import { SpiritsGrid } from "@/components/spirits/SpiritsGrid";
+
+export default async function SpiritsPage() {
+  const profile = await getCurrentProfile();
+  if (!profile) return null;
+
+  const { tiers } = await getSpiritSummary(profile.id);
+  const unlockedCount = tiers.filter((t) => t.unlocked).length;
+
+  return (
+    <div className="flex-1 overflow-y-auto pb-2">
+      <div className="mb-1 font-display text-[22px] text-paper">Your spirits</div>
+      <div className="mb-5 text-xs text-[rgba(255,218,185,0.55)]">
+        {unlockedCount} of {tiers.length} earned — kept even if a streak breaks.
+      </div>
+      <SpiritsGrid tiers={tiers} />
+    </div>
+  );
+}

@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Profile {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  sortOrder Int      @default(0) @map("sort_order")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  dailyEntries       DailyEntry[]
+  binaryGoals        BinaryGoal[]
+  spiritUnlocks      ProfileSpiritUnlock[]
+
+  @@map("profiles")
+}
+
+model DailyEntry {
+  id           String    @id @default(cuid())
+  profileId    String    @map("profile_id")
+  date         DateTime  @db.Date
+  goodThing1   String?   @map("good_thing_1")
+  goodThing2   String?   @map("good_thing_2")
+  goodThing3   String?   @map("good_thing_3")
+  toSort       String?   @map("to_sort")
+  sorted       String?
+  backfilled   Boolean   @default(false)
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@unique([profileId, date])
+  @@index([profileId])
+  @@map("daily_entries")
+}
+
+model BinaryGoal {
+  id        String   @id @default(cuid())
+  profileId String   @map("profile_id")
+  label     String
+  sortOrder Int      @default(0) @map("sort_order")
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  profile Profile        @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  logs    BinaryGoalLog[]
+
+  @@index([profileId])
+  @@map("binary_goals")
+}
+
+model BinaryGoalLog {
+  id           String   @id @default(cuid())
+  binaryGoalId String   @map("binary_goal_id")
+  date         DateTime @db.Date
+  achieved     Boolean  @default(false)
+
+  binaryGoal BinaryGoal @relation(fields: [binaryGoalId], references: [id], onDelete: Cascade)
+
+  @@unique([binaryGoalId, date])
+  @@map("binary_goal_logs")
+}
+
+model SpiritTier {
+  id                 String   @id @default(cuid())
+  name               String   @unique
+  streakDayThreshold Int      @map("streak_day_threshold")
+  sortOrder          Int      @default(0) @map("sort_order")
+
+  unlocks ProfileSpiritUnlock[]
+
+  @@map("spirit_tiers")
+}
+
+model ProfileSpiritUnlock {
+  id           String   @id @default(cuid())
+  profileId    String   @map("profile_id")
+  spiritTierId String   @map("spirit_tier_id")
+  unlockedAt   DateTime @default(now()) @map("unlocked_at")
+
+  profile    Profile    @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  spiritTier SpiritTier @relation(fields: [spiritTierId], references: [id], onDelete: Cascade)
+
+  @@unique([profileId, spiritTierId])
+  @@map("profile_spirit_unlocks")
+}

@@ -4,7 +4,7 @@
 
 ## Epic 1 — Data & API
 - [P0] Define Prisma schema (Profile, DailyEntry, BinaryGoal, BinaryGoalLog)
-- [P0] Migration + Postgres connection (provider still undecided — see `ready_PROJECT_BRIEF.md`)
+- [P0] Migration + Postgres connection (Railway — decided, see `ready_PROJECT_BRIEF.md`)
 - [P0] Seed 3 pilot profiles
 - [P0] API: create/update today's entry, scoped to profile (upsert by profile + date)
 - [P0] API: get entry by profile + date
@@ -89,7 +89,7 @@ Substantially reworked this session — see `ready_PROJECT_BRIEF.md` for the ful
 
 ## Epic 11 — Deployment
 - [P0] Vercel project connected to repo, env vars for DB URL
-- [P0] Postgres provisioned (provider TBD), connection string wired
+- [P0] Postgres provisioned (Railway), connection string wired
 - [P1] Basic error boundary / offline-save fallback
 - [P2] PWA manifest for "add to home screen"
 

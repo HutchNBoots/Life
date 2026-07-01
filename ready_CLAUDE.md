@@ -10,7 +10,7 @@ A small pilot (3 people, no real auth) daily positive-thinking tracker called **
 ## Stack
 - Next.js 14, App Router, TypeScript (strict mode on)
 - Tailwind CSS — colors/fonts must come from the design tokens defined in `ready_UX_DESIGN.md §1`, wired into `tailwind.config.ts` as named theme colors: `dusk`, `dusk-raised`, `mountain`, `paper`, `ember`, `blush`, `pebble` — not left as arbitrary hex in components. (Note: these token names replaced `ink`/`ink-raised`/`paper`/`brass`/`plum-clay`/`moss` from the original brief.)
-- Prisma + Postgres (provider still undecided — Railway vs. Neon, see `ready_PROJECT_BRIEF.md` Open Items — ask before assuming)
+- Prisma + Postgres (Railway — decided; see `ready_PROJECT_BRIEF.md` Open Items)
 - Framer Motion for animation
 - No external chart library — and no chart at all in the current dashboard scope. The original brief called for a custom SVG monthly graph; it was cut as redundant with the calendar (see `ready_BACKLOG.md`). Don't add one back in without checking with the project owner.
 - Deploy target: Vercel (frontend/API), Postgres host TBD
@@ -38,7 +38,7 @@ npm run build         # production build (run before every deploy)
 
 ## Env vars expected
 ```
-DATABASE_URL=          # Postgres connection string, provider TBD
+DATABASE_URL=          # Postgres connection string (Railway)
 ```
 
 ## File/folder conventions
