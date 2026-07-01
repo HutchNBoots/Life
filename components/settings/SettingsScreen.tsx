@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { GoalEditRow } from "./GoalEditRow";
 import { PrefToggle } from "./PrefToggle";
@@ -30,6 +31,13 @@ export function SettingsScreen({
 
   return (
     <div className="flex-1 overflow-y-auto pb-2">
+      <div className="relative mb-5 overflow-hidden rounded-card leading-none">
+        <Image src="/images/splash-3-forest.jpg" alt="" width={1344} height={261} className="block w-full" />
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{ background: "linear-gradient(to bottom, rgba(36,52,61,0) 55%, #24343D 100%)" }}
+        />
+      </div>
       <div className="mb-1 font-display text-[44px] leading-tight text-paper">Settings</div>
       <div className="mb-5 text-base text-[rgba(255,218,185,0.55)]">Signed in as {profileName}</div>
 
