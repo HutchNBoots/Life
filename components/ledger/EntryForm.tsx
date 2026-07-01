@@ -87,7 +87,7 @@ export function EntryForm({
     >
       <div className="sticky top-0 z-[2] flex flex-shrink-0 items-start justify-between border-b border-mountain/15 bg-paper px-5 pb-4 pt-5">
         <div>
-          <div className="font-display text-xl font-semibold text-mountain">{dateLabel}</div>
+          <div className="font-display text-[40px] font-semibold leading-tight text-mountain">{dateLabel}</div>
           <div className="mt-0.5 text-[11px] text-mountain/55">{profileName}</div>
         </div>
         <TallyCluster filledCount={filledCount} />

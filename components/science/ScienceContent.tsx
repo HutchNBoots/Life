@@ -42,7 +42,7 @@ export function ScienceContent() {
     <div>
       {SECTIONS.map((section) => (
         <div key={section.heading} className="mb-[26px]">
-          <div className="mb-2 font-display text-[17px] leading-[1.3] text-paper">{section.heading}</div>
+          <div className="mb-2 font-display text-[34px] leading-[1.15] text-paper">{section.heading}</div>
           {section.paragraphs.map((p, i) => (
             <p key={i} className="mb-2.5 text-[13.5px] leading-[1.65] text-[rgba(255,218,185,0.8)]">
               {p}
