@@ -12,8 +12,8 @@ export function CompanionHeader({
 }) {
   return (
     <Link href="/spirits" className="mb-[18px] flex items-center gap-3.5">
-      <div className="flex h-[55px] w-[55px] flex-shrink-0 items-center justify-center rounded-full bg-paper">
-        {companionName && <SpiritIcon name={companionName} className="h-[50px] w-[50px]" />}
+      <div className="flex h-[83px] w-[83px] flex-shrink-0 items-center justify-center rounded-full bg-paper">
+        {companionName && <SpiritIcon name={companionName} className="h-[75px] w-[75px]" />}
       </div>
       <div>
         <div className="mb-[3px] font-display text-[44px] leading-tight text-paper">{profileName}</div>
