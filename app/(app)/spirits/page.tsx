@@ -11,7 +11,7 @@ export default async function SpiritsPage() {
 
   return (
     <div className="flex-1 overflow-y-auto pb-2">
-      <div className="mb-1 font-display text-[22px] text-paper">Your spirits</div>
+      <div className="mb-1 font-display text-[44px] leading-tight text-paper">Your spirits</div>
       <div className="mb-5 text-xs text-[rgba(255,218,185,0.55)]">
         {unlockedCount} of {tiers.length} earned — kept even if a streak breaks.
       </div>

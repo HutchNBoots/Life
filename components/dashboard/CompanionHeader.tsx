@@ -16,7 +16,7 @@ export function CompanionHeader({
         {companionName && <SpiritIcon name={companionName} className="h-8 w-8" />}
       </div>
       <div>
-        <div className="mb-[3px] font-display text-[22px] text-paper">{profileName}</div>
+        <div className="mb-[3px] font-display text-[44px] leading-tight text-paper">{profileName}</div>
         <div className="font-mono text-[11px] text-[rgba(255,218,185,0.55)]">
           {companionName && <span className="text-ember">{companionName}</span>}
           {companionName && " · "}

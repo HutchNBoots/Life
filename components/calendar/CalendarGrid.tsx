@@ -23,7 +23,7 @@ export function CalendarGrid({ monthAnchor, days, goalCount }: { monthAnchor: st
 
   return (
     <div className="mb-2 rounded-card bg-paper p-4 text-mountain">
-      <div className="mb-3 font-display text-base">{formatMonthLabel(monthAnchor)}</div>
+      <div className="mb-3 font-display text-[32px] leading-tight">{formatMonthLabel(monthAnchor)}</div>
       <div className="grid grid-cols-7 gap-1">
         {Array.from({ length: pad }, (_, i) => (
           <div key={`pad-${i}`} className="aspect-square invisible" />
