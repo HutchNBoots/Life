@@ -113,11 +113,30 @@ export async function getSpiritSummary(profileId: string) {
   const companion = matchedTier ?? tierList[0] ?? null;
   const next = matchedTier ? tierList.find((t) => t.day > current) ?? null : tierList[1] ?? null;
 
+  // Unlocks are permanent and recorded the first time we notice them —
+  // recording IS the reveal trigger, so a tier only ever comes back as
+  // `justUnlocked` once, on whichever request first observes it unlocked.
+  const unlockedTiers = tierList.filter((t) => t.unlocked);
+  const existing = await prisma.profileSpiritUnlock.findMany({
+    where: { profileId, spiritTierId: { in: unlockedTiers.map((t) => t.id) } },
+    select: { spiritTierId: true },
+  });
+  const alreadyRecorded = new Set(existing.map((u) => u.spiritTierId));
+  const newlyUnlocked = unlockedTiers.filter((t) => !alreadyRecorded.has(t.id));
+
+  if (newlyUnlocked.length > 0) {
+    await prisma.profileSpiritUnlock.createMany({
+      data: newlyUnlocked.map((t) => ({ profileId, spiritTierId: t.id })),
+      skipDuplicates: true,
+    });
+  }
+
   return {
     current,
     longest,
     companion,
     next: next ? { name: next.name, daysAway: next.day - current } : null,
     tiers: tierList,
+    justUnlocked: newlyUnlocked[0] ?? null,
   };
 }

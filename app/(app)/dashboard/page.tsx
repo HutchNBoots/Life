@@ -24,6 +24,7 @@ export default async function DashboardPage() {
         profileName={profile.name}
         companionName={spirits.companion?.name ?? null}
         companionCopy={spirits.next ? `${spirits.next.daysAway} days to ${spirits.next.name}` : "Every tier unlocked"}
+        justUnlocked={Boolean(spirits.justUnlocked && spirits.justUnlocked.id === spirits.companion?.id)}
       />
       <FlashbackCard />
       <StreakStrip current={spirits.current} longest={spirits.longest} />
