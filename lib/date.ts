@@ -7,7 +7,7 @@
  * entry, streaks, calendar) must go through this file.
  */
 
-export const APP_TIMEZONE = process.env.APP_TIMEZONE || "America/New_York";
+export const APP_TIMEZONE = process.env.APP_TIMEZONE || "Europe/London";
 
 /** A calendar day as "YYYY-MM-DD", always in APP_TIMEZONE. */
 export type DayString = string;
