@@ -38,4 +38,16 @@ body {
     stroke-linecap: round;
     fill: none;
   }
+  .tally-stroke-pebble {
+    stroke: theme("colors.pebble");
+    stroke-width: 3;
+    stroke-linecap: round;
+    fill: none;
+  }
+  .tally-slash-pebble {
+    stroke: theme("colors.pebble");
+    stroke-width: 3;
+    stroke-linecap: round;
+    fill: none;
+  }
 }

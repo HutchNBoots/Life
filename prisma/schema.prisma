@@ -40,15 +40,17 @@ model DailyEntry {
 }
 
 model BinaryGoal {
-  id        String   @id @default(cuid())
-  profileId String   @map("profile_id")
-  label     String
-  sortOrder Int      @default(0) @map("sort_order")
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now()) @map("created_at")
+  id         String    @id @default(cuid())
+  profileId  String    @map("profile_id")
+  label      String
+  sortOrder  Int       @default(0) @map("sort_order")
+  active     Boolean   @default(true)
+  archivedAt DateTime? @map("archived_at")
+  createdAt  DateTime  @default(now()) @map("created_at")
 
-  profile Profile        @relation(fields: [profileId], references: [id], onDelete: Cascade)
-  logs    BinaryGoalLog[]
+  profile   Profile               @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  logs      BinaryGoalLog[]
+  milestoneUnlocks GoalMilestoneUnlock[]
 
   @@index([profileId])
   @@map("binary_goals")
@@ -88,4 +90,29 @@ model ProfileSpiritUnlock {
 
   @@unique([profileId, spiritTierId])
   @@map("profile_spirit_unlocks")
+}
+
+/// Per-goal streak "prize" milestones (ready_MVP2_5.md Epic 13) — a
+/// separate reward ladder from SpiritTier, shared across all goals/profiles.
+model GoalMilestoneTier {
+  id            String @id @default(cuid())
+  dayThreshold  Int    @unique @map("day_threshold")
+  sortOrder     Int    @default(0) @map("sort_order")
+
+  unlocks GoalMilestoneUnlock[]
+
+  @@map("goal_milestone_tiers")
+}
+
+model GoalMilestoneUnlock {
+  id                  String   @id @default(cuid())
+  binaryGoalId        String   @map("binary_goal_id")
+  goalMilestoneTierId String   @map("goal_milestone_tier_id")
+  unlockedAt          DateTime @default(now()) @map("unlocked_at")
+
+  binaryGoal        BinaryGoal        @relation(fields: [binaryGoalId], references: [id], onDelete: Cascade)
+  goalMilestoneTier GoalMilestoneTier @relation(fields: [goalMilestoneTierId], references: [id], onDelete: Cascade)
+
+  @@unique([binaryGoalId, goalMilestoneTierId])
+  @@map("goal_milestone_unlocks")
 }

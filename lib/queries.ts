@@ -77,6 +77,85 @@ export async function getStreakSummary(profileId: string) {
   return { current: currentStreak(completeDays, todayString()), longest: longestStreak(completeDays) };
 }
 
+export interface GoalMilestoneState {
+  id: string;
+  dayThreshold: number;
+  unlocked: boolean;
+}
+
+export interface GoalWithMilestones {
+  id: string;
+  label: string;
+  currentStreak: number;
+  longestStreak: number;
+  milestones: GoalMilestoneState[];
+  nextMilestoneDaysAway: number | null;
+  justUnlockedTierId: string | null;
+}
+
+/**
+ * Per-goal "prize" milestones (ready_MVP2_5.md Epic 13) — a streak ladder
+ * per binary goal, separate from the profile-wide spirit-animal ladder.
+ * Unlock detection/recording mirrors getSpiritSummary below: driven by
+ * longest streak (permanent), recorded the first time it's observed.
+ */
+export async function getGoalsWithMilestones(profileId: string): Promise<GoalWithMilestones[]> {
+  const [goals, tiers] = await Promise.all([
+    prisma.binaryGoal.findMany({
+      where: { profileId, active: true },
+      orderBy: { sortOrder: "asc" },
+      include: { logs: { where: { achieved: true } } },
+    }),
+    prisma.goalMilestoneTier.findMany({ orderBy: { sortOrder: "asc" } }),
+  ]);
+
+  const existingUnlocks = await prisma.goalMilestoneUnlock.findMany({
+    where: { binaryGoalId: { in: goals.map((g) => g.id) } },
+    select: { binaryGoalId: true, goalMilestoneTierId: true },
+  });
+  const recordedKey = (goalId: string, tierId: string) => `${goalId}:${tierId}`;
+  const recorded = new Set(existingUnlocks.map((u) => recordedKey(u.binaryGoalId, u.goalMilestoneTierId)));
+
+  const toRecord: { binaryGoalId: string; goalMilestoneTierId: string }[] = [];
+  const results: GoalWithMilestones[] = goals.map((goal) => {
+    const achievedDays = goal.logs.map((l) => dateToDayString(l.date));
+    const current = currentStreak(achievedDays, todayString());
+    const longest = longestStreak(achievedDays);
+
+    const milestones: GoalMilestoneState[] = tiers.map((tier) => ({
+      id: tier.id,
+      dayThreshold: tier.dayThreshold,
+      unlocked: longest >= tier.dayThreshold,
+    }));
+
+    let justUnlockedTierId: string | null = null;
+    for (const m of milestones) {
+      if (m.unlocked && !recorded.has(recordedKey(goal.id, m.id))) {
+        toRecord.push({ binaryGoalId: goal.id, goalMilestoneTierId: m.id });
+        justUnlockedTierId = justUnlockedTierId ?? m.id;
+      }
+    }
+
+    const nextTier = milestones.find((t) => !t.unlocked);
+
+    return {
+      id: goal.id,
+      label: goal.label,
+      currentStreak: current,
+      longestStreak: longest,
+      milestones,
+      nextMilestoneDaysAway: nextTier ? nextTier.dayThreshold - current : null,
+      justUnlockedTierId,
+    };
+  });
+
+  if (toRecord.length > 0) {
+    await prisma.goalMilestoneUnlock.createMany({ data: toRecord, skipDuplicates: true });
+  }
+
+  return results;
+}
+
 export interface SpiritTierState {
   id: string;
   name: string;

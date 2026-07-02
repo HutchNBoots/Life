@@ -28,6 +28,17 @@ const TABS = [
     ),
   },
   {
+    href: "/goals",
+    label: "goals",
+    icon: (
+      <svg viewBox="0 0 22 22" width={20} height={20} fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="11" cy="11" r="8.5" />
+        <circle cx="11" cy="11" r="4.5" />
+        <circle cx="11" cy="11" r="0.8" fill="currentColor" stroke="none" />
+      </svg>
+    ),
+  },
+  {
     href: "/spirits",
     label: "spirits",
     icon: (

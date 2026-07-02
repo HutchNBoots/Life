@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<title>Life — MVP 2.5 Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1C2620;
+    --ink-raised:#26332C;
+    --ink-line: rgba(237,230,214,0.22);
+    --paper:#EDE6D6;
+    --paper-dim: #C3C0B2;
+    --brass:#BE8A3D;
+    --blush:#A15A68;
+    --moss:#5C7A5E;
+    --radius: 14px;
+  }
+  *{box-sizing:border-box;}
+  html{ color-scheme: dark; }
+  button{ appearance:none; -webkit-appearance:none; font-family:inherit; }
+  html,body{ scrollbar-width:none; }
+  body::-webkit-scrollbar{ display:none; }
+  body{
+    margin:0; min-height:100vh;
+    background: var(--ink);
+    color: var(--paper);
+    font-family:'Inter',sans-serif;
+    display:flex; justify-content:center;
+    padding: 24px 16px 100px;
+  }
+  .phone{ width:100%; max-width:400px; position:relative; }
+  .display{ font-family:'Fraunces',serif; }
+
+  /* ---- demo nav (prototype chrome only, not app UI) ---- */
+  .demo-nav{ display:flex; gap:6px; margin-bottom:18px; flex-wrap:wrap; }
+  .demo-nav button{
+    background:var(--ink-raised); border:1px solid #4A5850; color:var(--paper);
+    font-family:'IBM Plex Mono',monospace; font-size:11px; padding:6px 10px;
+    border-radius:20px; cursor:pointer; letter-spacing:.03em;
+  }
+  .demo-nav button.active{ background:var(--brass); color:var(--ink); border-color:var(--brass); font-weight:600;}
+  .demo-tag{ font-family:'IBM Plex Mono',monospace; font-size:10px; color:#B9B6A9; text-align:center; margin-bottom:14px; letter-spacing:.04em; }
+
+  .screen{ display:none; }
+  .screen.active{ display:block; }
+
+  /* ---- shared banner image ---- */
+  .banner{ width:100%; height:90px; object-fit:cover; border-radius:var(--radius) var(--radius) 0 0; display:block; }
+
+  /* ---- shared card ---- */
+  .card{ background:var(--ink-raised); border:1px solid var(--ink-line); border-radius:var(--radius); padding:18px; margin-bottom:16px; }
+  .label{ font-size:11px; text-transform:uppercase; letter-spacing:.09em; color:var(--brass); margin-bottom:10px; font-weight:600; }
+  .subtext{ font-size:13px; color:var(--paper-dim); line-height:1.5; }
+
+  /* ================= DASHBOARD v2 ================= */
+  .profile-header{ display:flex; align-items:center; gap:14px; margin-bottom:18px; }
+  .companion-badge{ width:66px; height:66px; border-radius:50%; background:var(--paper); flex-shrink:0; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  .companion-badge svg{ width:74%; height:74%; }
+  .profile-name{ font-family:'Fraunces',serif; font-size:24px; line-height:1.1; }
+  .companion-line{ font-size:13px; color:var(--brass); font-family:'IBM Plex Mono',monospace; margin-top:2px; }
+
+  .btn-brass{ background:var(--brass); color:var(--ink); font-weight:600; border:none; border-radius:10px; padding:11px 16px; font-size:13px; cursor:pointer; flex:1; }
+  .btn-ghost{ background:none; color:var(--paper-dim); border:1px solid var(--ink-line); border-radius:10px; padding:11px 16px; font-size:13px; cursor:pointer; }
+
+  .streak-row{ display:flex; gap:10px; margin-bottom:10px; }
+  .streak-card{ flex:1; background:var(--ink-raised); border:1px solid var(--ink-line); border-radius:var(--radius); padding:14px; }
+  .tally-count-row{ display:flex; flex-wrap:wrap; gap:3px; margin-bottom:6px; min-height:22px; align-items:flex-end; }
+  .tally-cluster{ width:22px; height:19px; }
+  .tally-cluster.small{ width:16px; height:14px; }
+  .tally-stroke-moss{ stroke:var(--moss); stroke-width:3; stroke-linecap:round; fill:none; }
+  .tally-slash-moss{ stroke:var(--moss); stroke-width:3; stroke-linecap:round; fill:none; }
+  .streak-label{ font-size:11px; color:var(--paper-dim); margin-top:2px; }
+
+  .cta{
+    display:block; width:100%; text-align:center; background:var(--brass); color:var(--ink);
+    font-weight:600; padding:14px; border-radius:12px; margin-bottom:24px; cursor:pointer; border:none; font-size:15px;
+  }
+
+  .section-label{ font-size:11px; text-transform:uppercase; letter-spacing:.09em; color:var(--paper-dim); margin: 0 0 10px; }
+
+  .goal-strip{ display:flex; gap:10px; margin-bottom:20px; }
+  .goal-chip{
+    flex:1; background:var(--ink-raised); border:1px solid var(--ink-line); border-radius:12px;
+    padding:12px; cursor:pointer; transition:border-color .15s ease;
+  }
+  .goal-chip:hover{ border-color:var(--brass); }
+  .goal-chip-name{ font-size:13px; font-weight:500; margin-bottom:6px; }
+  .goal-chip-next{ font-size:10px; color:var(--paper-dim); margin-top:4px; }
+
+  .demo-trigger{ display:block; width:100%; text-align:center; background:none; border:1px dashed var(--ink-line); color:var(--paper-dim); font-family:'IBM Plex Mono',monospace; font-size:11px; padding:10px; border-radius:10px; cursor:pointer; margin-top:6px; }
+
+  /* ================= GOAL DETAIL ================= */
+  .goal-card{ margin-bottom:16px; }
+  .goal-card-top{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:4px; }
+  .goal-card-name{ font-size:16px; font-weight:600; }
+  .goal-card-meta{ font-size:12px; color:var(--paper-dim); margin-bottom:16px; }
+
+  .goal-edit-row{ display:flex; gap:8px; margin-bottom:20px; }
+  .goal-edit-row input{
+    flex:1; background:var(--ink-raised); border:1px solid var(--ink-line); border-radius:10px;
+    color:var(--paper); font-family:'Inter',sans-serif; font-size:14px; padding:10px 12px; outline:none;
+  }
+  .goal-edit-row input:focus{ border-color:var(--brass); }
+
+  .milestone-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px 8px; margin-bottom:6px; }
+  .milestone-seal{ display:flex; flex-direction:column; align-items:center; gap:8px; text-align:center; }
+  .seal-circle{
+    width:56px; height:56px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    background:var(--paper); position:relative;
+  }
+  .seal-circle.locked{ background:transparent; border:1.5px dashed var(--ink-line); }
+  .seal-circle svg{ width:60%; height:60%; }
+  .seal-day{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--paper-dim); }
+  .seal-day.earned{ color:var(--brass); }
+
+  /* ================= SETTINGS v2 ================= */
+  .settings-title{ font-family:'Fraunces',serif; font-size:30px; margin:14px 0 2px; }
+  .settings-sub{ font-size:14px; color:var(--paper-dim); margin-bottom:26px; }
+
+  .goal-row-actions{ display:flex; gap:14px; align-items:center; }
+  .goal-row-actions button{ background:none; border:none; color:var(--brass); font-family:'IBM Plex Mono',monospace; font-size:12px; cursor:pointer; padding:0; }
+  .goal-row-actions .archive-btn{ color:var(--paper-dim); }
+
+  .goal-row-edit{ display:none; margin-bottom:16px; }
+  .goal-row-edit.active{ display:flex; gap:8px; }
+  .goal-row-edit input{
+    flex:1; background:rgba(237,230,214,0.06); border:1px solid var(--brass); border-radius:8px;
+    color:var(--paper); font-family:'Inter',sans-serif; font-size:14px; padding:8px 10px; outline:none;
+  }
+
+  .add-goal-btn{
+    width:100%; background:none; border:1px dashed var(--ink-line); color:var(--paper-dim);
+    border-radius:12px; padding:13px; font-family:'IBM Plex Mono',monospace; font-size:12px; cursor:pointer; margin-bottom:26px;
+  }
+  .add-goal-form{ display:none; gap:8px; margin-bottom:26px; }
+  .add-goal-form.active{ display:flex; }
+  .add-goal-form input{
+    flex:1; background:var(--ink-raised); border:1px solid var(--brass); border-radius:10px;
+    color:var(--paper); font-family:'Inter',sans-serif; font-size:14px; padding:10px 12px; outline:none;
+  }
+
+  .archived-note{ font-size:12px; color:var(--paper-dim); margin: -4px 0 20px; font-family:'IBM Plex Mono',monospace; }
+
+  /* ================= MILESTONE POPUP ================= */
+  .overlay{
+    position:fixed; inset:0; background:rgba(28,38,32,0.82); backdrop-filter: blur(2px);
+    display:none; align-items:center; justify-content:center; z-index:50; cursor:pointer; padding:24px;
+  }
+  .overlay.active{ display:flex; }
+  .prize-card{
+    background:var(--paper); color:var(--ink); border-radius:20px; padding:36px 28px 30px;
+    text-align:center; max-width:320px; width:100%; cursor:default;
+    animation: prize-in .35s cubic-bezier(.2,.8,.3,1);
+  }
+  @keyframes prize-in{ from{ opacity:0; transform: scale(.92) translateY(8px); } to{ opacity:1; transform:none; } }
+  .prize-seal{ width:88px; height:88px; border-radius:50%; background:rgba(190,138,61,0.12); border:2px solid var(--brass); display:flex; align-items:center; justify-content:center; margin:0 auto 18px; }
+  .prize-seal svg{ width:56%; height:56%; }
+  .prize-eyebrow{ font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--blush); margin-bottom:10px; }
+  .prize-days{ font-family:'IBM Plex Mono',monospace; font-size:40px; color:var(--brass); line-height:1; }
+  .prize-days-label{ font-size:12px; color:#5A5148; margin:2px 0 14px; }
+  .prize-goal{ font-family:'Fraunces',serif; font-size:20px; margin-bottom:22px; }
+  .prize-dismiss{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:#6B6259; }
+
+  /* ---- bottom nav (mirrors shipped app chrome; only Dashboard/Settings are wired) ---- */
+  .bottom-nav{
+    position:fixed; left:0; right:0; bottom:0; background:var(--ink-raised); border-top:1px solid var(--ink-line);
+    display:flex; justify-content:center; padding:10px 0 14px; z-index:10;
+  }
+  .bottom-nav-inner{ width:100%; max-width:400px; display:flex; justify-content:space-around; }
+  .nav-tab{ display:flex; flex-direction:column; align-items:center; gap:4px; color:var(--paper-dim); font-family:'IBM Plex Mono',monospace; font-size:10px; cursor:pointer; background:none; border:none; }
+  .nav-tab.active{ color:var(--brass); }
+  .nav-tab.inert{ cursor:default; opacity:.45; }
+  .nav-icon{ font-size:15px; line-height:1; }
+
+  /* ================= CALENDAR (restored on dashboard) ================= */
+  .cal-grid{ background:var(--paper); border-radius:var(--radius); padding:16px; color:var(--ink); margin-bottom:24px; }
+  .cal-title{ font-family:'Fraunces',serif; font-size:16px; margin-bottom:12px; }
+  .cal-days{ display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
+  .cal-cell{ aspect-ratio:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; border-radius:6px; font-family:'IBM Plex Mono',monospace; font-size:10px; }
+  .cal-cell.pad{ visibility:hidden; }
+  .cal-cell .num{ color:#7C7A6C; }
+  .cal-dots{ display:flex; gap:2px; }
+  .cal-dots span{ width:4px; height:4px; border-radius:50%; border:1px solid var(--moss); }
+  .cal-dots span.on{ background:var(--moss); }
+  .cal-cell.today{ background:rgba(190,138,61,0.16); border:1px solid var(--brass); }
+  .tally-stroke{ stroke:var(--brass); stroke-width:3; stroke-linecap:round; fill:none; }
+  .tally-slash{ stroke:var(--brass); stroke-width:3; stroke-linecap:round; fill:none; }
+  .tally-empty{ stroke:rgba(28,38,32,0.3); stroke-width:3; stroke-linecap:round; fill:none; }
+
+  /* ================= PROFILE PICKER ================= */
+  .picker-wrap{ padding-top:30px; }
+  .picker-title{ font-family:'Fraunces',serif; font-size:32px; color:var(--brass); text-align:center; margin-bottom:6px; }
+  .picker-tagline{ font-family:'Fraunces',serif; font-style:italic; font-size:15px; color:var(--paper); text-align:center; margin-bottom:6px; opacity:0.9; }
+  .picker-prompt{ font-size:13px; color:var(--paper); text-align:center; margin-bottom:26px; }
+  .profile-btn{
+    display:flex; align-items:center; justify-content:space-between; width:100%; padding:18px;
+    margin-bottom:10px; background:var(--ink-raised); border:1px solid var(--ink-line);
+    border-radius:var(--radius); color:var(--paper); font-family:'Fraunces',serif;
+    font-size:19px; text-align:left; cursor:pointer;
+  }
+  .profile-btn:hover{ border-color:var(--brass); }
+  .profile-btn .arrow{ color:var(--brass); font-family:'Inter',sans-serif; }
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="demo-nav">
+    <button data-screen="picker" class="active">Picker</button>
+    <button data-screen="dashboard">Dashboard (v2)</button>
+    <button data-screen="goals">Goals (v2)</button>
+    <button data-screen="settings">Settings (v2)</button>
+  </div>
+  <div class="demo-tag">MVP 2.5 — new/changed screens only. Today, Spirits, Science unchanged from POC. "This week" feature removed — on hold.</div>
+
+  <!-- ================= PROFILE PICKER (unchanged screen, included here with the contrast fix) ================= -->
+  <div class="screen active" id="picker">
+    <div class="picker-wrap">
+      <div class="picker-title">Life</div>
+      <div class="picker-tagline">capture the small joys of the day</div>
+      <div class="picker-prompt">Who's living today?</div>
+      <button class="profile-btn" onclick="go('dashboard')">Alex <span class="arrow">→</span></button>
+      <button class="profile-btn" onclick="go('dashboard')">Sam <span class="arrow">→</span></button>
+      <button class="profile-btn" onclick="go('dashboard')">Jo <span class="arrow">→</span></button>
+      <button class="profile-btn" onclick="go('dashboard')">Lex <span class="arrow">→</span></button>
+    </div>
+  </div>
+
+  <!-- ================= DASHBOARD v2 ================= -->
+  <div class="screen" id="dashboard">
+    <div class="profile-header">
+      <div class="companion-badge">
+        <svg viewBox="0 0 40 40" fill="none" stroke="#1C2620" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 26c0-7 4-13 8-13s8 6 8 13c0 4-3 6-8 6s-8-2-8-6z"/>
+          <path d="M14 15l-2-5M26 15l2-5"/>
+          <circle cx="17" cy="21" r="1.1" fill="#1C2620"/>
+          <circle cx="23" cy="21" r="1.1" fill="#1C2620"/>
+        </svg>
+      </div>
+      <div>
+        <div class="profile-name">Alex</div>
+        <div class="companion-line">Curious Otter · 2 days to Chirpy Wren</div>
+      </div>
+    </div>
+
+    <div class="streak-row">
+      <div class="streak-card">
+        <div class="tally-count-row" data-tally="1"></div>
+        <div class="streak-label">day streak</div>
+      </div>
+      <div class="streak-card">
+        <div class="tally-count-row" data-tally="1"></div>
+        <div class="streak-label">longest</div>
+      </div>
+    </div>
+
+    <div class="goal-strip">
+      <div class="goal-chip" onclick="go('goals')">
+        <div class="goal-chip-name">avoided sugar</div>
+        <div class="tally-count-row" data-tally="9" data-variant="moss" data-small="1"></div>
+        <div class="goal-chip-next">5 days to next prize</div>
+      </div>
+      <div class="goal-chip" onclick="go('goals')">
+        <div class="goal-chip-name">no wine</div>
+        <div class="tally-count-row" data-tally="2" data-variant="moss" data-small="1"></div>
+        <div class="goal-chip-next">1 day to next prize</div>
+      </div>
+    </div>
+
+    <button class="cta" onclick="alert('Opens the Today entry screen — unchanged from the POC, not part of this v2 prototype file.')">Log today →</button>
+
+    <div class="section-label">Calendar</div>
+    <div class="cal-grid">
+      <div class="cal-title">July</div>
+      <div class="cal-days" id="calDays"></div>
+    </div>
+
+    <button class="demo-trigger" onclick="showPrize()">Demo: trigger milestone celebration →</button>
+  </div>
+
+  <!-- ================= GOALS (v2) — merged list + detail, one screen ================= -->
+  <div class="screen" id="goals">
+    <div class="settings-title">Goals</div>
+    <div class="settings-sub">Add, rename, or archive your binary goals.</div>
+
+    <div class="card goal-card" id="card-sugar">
+      <div class="goal-card-top">
+        <div class="goal-card-name" id="name-sugar">avoided sugar</div>
+        <div class="goal-row-actions">
+          <button onclick="editGoal('sugar')">edit</button>
+          <button class="archive-btn" onclick="archiveGoal('sugar', this)">archive</button>
+        </div>
+      </div>
+      <div class="goal-row-edit" id="edit-sugar">
+        <input type="text" value="avoided sugar" id="input-sugar">
+        <button class="btn-ghost" onclick="saveGoal('sugar')">Save</button>
+      </div>
+      <div class="goal-card-meta">9-day streak · 14 longest · 1 of 8 prizes earned</div>
+      <div class="milestone-grid">
+        <div class="milestone-seal">
+          <div class="seal-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1C2620" stroke-width="1.6"><circle cx="12" cy="9" r="5"/><path d="M8 13l-2 7 6-3 6 3-2-7"/></svg>
+          </div>
+          <div class="seal-day earned">Day 3</div>
+        </div>
+        <div class="milestone-seal">
+          <div class="seal-circle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1C2620" stroke-width="1.6"><circle cx="12" cy="9" r="5"/><path d="M8 13l-2 7 6-3 6 3-2-7"/></svg>
+          </div>
+          <div class="seal-day earned">Day 7</div>
+        </div>
+        <div class="milestone-seal"><div class="seal-circle locked"></div><div class="seal-day">Day 14</div></div>
+        <div class="milestone-seal"><div class="seal-circle locked"></div><div class="seal-day">Day 30</div></div>
+        <div class="milestone-seal"><div class="seal-circle locked"></div><div class="seal-day">Day 60</div></div>
+        <div class="milestone-seal"><div class="seal-circle locked"></div><div class="seal-day">Day 90</div></div>
+        <div class="milestone-seal"><div class="seal-circle locked"></div><div class="seal-day">Day 180</div></div>
+        <div class="milestone-seal"><div class="seal-circle locked"></div><div class="seal-day">Day 365</div></div>
+      </div>
+    </div>
+
+    <div class="card goal-card" id="card-wine">
+      <div class="goal-card-top">
+        <div class="goal-card-name" id="name-wine">no wine</div>
+        <div class="goal-row-actions">
+          <button onclick="editGoal('wine')">edit</button>
+          <button class="archive-btn" onclick="archiveGoal('wine', this)">archive</button>
+        </div>
+      </div>
+      <div class="goal-row-edit" id="edit-wine">
+        <input type="text" value="no wine" id="input-wine">
+        <button class="btn-ghost" onclick="saveGoal('wine')">Save</button>
+      </div>
+      <div class="goal-card-meta">2-day streak · 2 longest · 0 of 8 prizes earned</div>
+      <div class="milestone-grid">
+        <div class="milestone-seal"><div class="seal-circle locked"></div><div class="seal-day">Day 3</div></div>
+        <div class="milestone-seal"><div class="seal-circle locked"></div><div class="seal-day">Day 7</div></div>
+        <div class="milestone-seal"><div class="seal-circle locked"></div><div class="seal-day">Day 14</div></div>
+        <div class="milestone-seal"><div class="seal-circle locked"></div><div class="seal-day">Day 30</div></div>
+        <div class="milestone-seal"><div class="seal-circle locked"></div><div class="seal-day">Day 60</div></div>
+        <div class="milestone-seal"><div class="seal-circle locked"></div><div class="seal-day">Day 90</div></div>
+        <div class="milestone-seal"><div class="seal-circle locked"></div><div class="seal-day">Day 180</div></div>
+        <div class="milestone-seal"><div class="seal-circle locked"></div><div class="seal-day">Day 365</div></div>
+      </div>
+    </div>
+
+    <button class="add-goal-btn" id="addGoalToggle" onclick="toggleAddGoal()">+ Add a goal</button>
+    <div class="add-goal-form" id="addGoalForm">
+      <input type="text" placeholder="e.g. stretched" id="newGoalInput">
+      <button class="btn-brass" onclick="addGoal()" style="flex:none; padding:10px 16px;">Add</button>
+    </div>
+  </div>
+
+  <!-- ================= SETTINGS (v2) ================= -->
+  <div class="screen" id="settings">
+    <div class="settings-title">Settings</div>
+    <div class="settings-sub">Signed in as Alex</div>
+
+    <div class="section-label">Motion &amp; haptics</div>
+    <div class="card" style="margin-bottom:0;">
+      <div class="subtext">Unchanged from POC — full motion / haptics toggles live here.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MILESTONE CELEBRATION OVERLAY ================= -->
+<div class="overlay" id="prizeOverlay" onclick="hidePrize()">
+  <div class="prize-card">
+    <div class="prize-seal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#BE8A3D" stroke-width="1.6"><circle cx="12" cy="9" r="5"/><path d="M8 13l-2 7 6-3 6 3-2-7"/></svg>
+    </div>
+    <div class="prize-eyebrow">Prize won</div>
+    <div class="prize-days">14</div>
+    <div class="prize-days-label">days</div>
+    <div class="prize-goal">avoided sugar</div>
+    <div class="prize-dismiss">tap anywhere to dismiss</div>
+  </div>
+</div>
+
+<div class="bottom-nav" style="display:none;">
+  <div class="bottom-nav-inner">
+    <button class="nav-tab inert">
+      <span class="nav-icon">⁙</span>today
+    </button>
+    <button class="nav-tab active" id="navDashboard" onclick="go('dashboard')">
+      <span class="nav-icon">▤</span>dashboard
+    </button>
+    <button class="nav-tab" id="navGoals" onclick="go('goals')">
+      <span class="nav-icon">◈</span>goals
+    </button>
+    <button class="nav-tab inert">
+      <span class="nav-icon">◔</span>spirits
+    </button>
+    <button class="nav-tab inert">
+      <span class="nav-icon">⚗</span>science
+    </button>
+    <button class="nav-tab" id="navSettings" onclick="go('settings')">
+      <span class="nav-icon">⚙</span>settings
+    </button>
+  </div>
+</div>
+
+<script>
+  function go(id){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.demo-nav button').forEach(b=>b.classList.toggle('active', b.dataset.screen===id));
+    document.getElementById('navDashboard').classList.toggle('active', id==='dashboard');
+    document.getElementById('navGoals').classList.toggle('active', id==='goals');
+    document.getElementById('navSettings').classList.toggle('active', id==='settings');
+    document.querySelector('.bottom-nav').style.display = (id==='picker') ? 'none' : 'flex';
+    window.scrollTo(0,0);
+  }
+  document.querySelectorAll('.demo-nav button').forEach(b=>{
+    b.addEventListener('click', ()=>go(b.dataset.screen));
+  });
+
+  // ---- streak tally graphics (reuses the app's signature 4-strokes+slash motif) ----
+  const strokePathsSm = ["M4 2 L4 22","M10 2 L10 22","M16 2 L16 22","M22 2 L22 22"];
+  const slashPathSm = "M2 24 L26 0";
+  function tallyCluster(activeStrokes, withSlash, strokeCls, slashCls){
+    let svg = `<svg class="tally-cluster" viewBox="0 0 30 26">`;
+    for(let s=0;s<4;s++){
+      const on = s < activeStrokes;
+      svg += `<path d="${strokePathsSm[s]}" class="${on?strokeCls:'tally-empty'}"/>`;
+    }
+    svg += `<path d="${slashPathSm}" class="${withSlash?slashCls:'tally-empty'}"/></svg>`;
+    return svg;
+  }
+  function renderTallyCount(n, variant){
+    const strokeCls = variant==='moss' ? 'tally-stroke-moss' : 'tally-stroke';
+    const slashCls = variant==='moss' ? 'tally-slash-moss' : 'tally-slash';
+    const full = Math.floor(n/5), rem = n%5;
+    let html = '';
+    for(let i=0;i<full;i++) html += tallyCluster(4, true, strokeCls, slashCls);
+    if(rem>0 || n===0) html += tallyCluster(rem, false, strokeCls, slashCls);
+    return html;
+  }
+  document.querySelectorAll('[data-tally]').forEach(el=>{
+    const n = parseInt(el.dataset.tally, 10) || 0;
+    const variant = el.dataset.variant || 'brass';
+    el.innerHTML = renderTallyCount(n, variant);
+    if(el.dataset.small) el.querySelectorAll('.tally-cluster').forEach(s=>s.classList.add('small'));
+  });
+
+  // ---- goals: inline rename ----
+  function editGoal(key){
+    document.getElementById('card-'+key).querySelector('.goal-card-top').style.display='none';
+    document.getElementById('edit-'+key).classList.add('active');
+    document.getElementById('input-'+key).focus();
+  }
+  function saveGoal(key){
+    const v = document.getElementById('input-'+key).value.trim();
+    if(v) document.getElementById('name-'+key).textContent = v;
+    document.getElementById('edit-'+key).classList.remove('active');
+    document.getElementById('card-'+key).querySelector('.goal-card-top').style.display='flex';
+  }
+
+  // ---- goals: archive ----
+  function archiveGoal(key, btn){
+    const card = document.getElementById('card-'+key);
+    card.style.opacity = '0.4';
+    card.querySelectorAll('button').forEach(b=>b.disabled=true);
+    const note = document.createElement('div');
+    note.className = 'archived-note';
+    note.textContent = 'Archived — streak and prizes kept, hidden from Today.';
+    card.after(note);
+    btn.remove();
+  }
+
+  // ---- goals: add goal ----
+  function toggleAddGoal(){
+    document.getElementById('addGoalForm').classList.add('active');
+    document.getElementById('addGoalToggle').style.display='none';
+    document.getElementById('newGoalInput').focus();
+  }
+  function addGoal(){
+    const v = document.getElementById('newGoalInput').value.trim();
+    if(!v) return;
+    const days = [3,7,14,30,60,90,180,365];
+    const seals = days.map(d=>`<div class="milestone-seal"><div class="seal-circle locked"></div><div class="seal-day">Day ${d}</div></div>`).join('');
+    const card = document.createElement('div');
+    card.className = 'card goal-card';
+    card.innerHTML = `
+      <div class="goal-card-top">
+        <div class="goal-card-name">${v}</div>
+        <div class="goal-row-actions"><button class="archive-btn" onclick="this.closest('.goal-card').remove()">remove</button></div>
+      </div>
+      <div class="goal-card-meta">0-day streak · 0 of 8 prizes earned</div>
+      <div class="milestone-grid">${seals}</div>`;
+    document.getElementById('addGoalForm').before(card);
+    document.getElementById('newGoalInput').value='';
+    document.getElementById('addGoalForm').classList.remove('active');
+    document.getElementById('addGoalToggle').style.display='block';
+  }
+
+  // ---- milestone celebration popup ----
+  function showPrize(){ document.getElementById('prizeOverlay').classList.add('active'); }
+  function hidePrize(){ document.getElementById('prizeOverlay').classList.remove('active'); }
+
+  // ---- calendar (restored from POC — dummy data) ----
+  const strokePaths = ["M4 2 L4 22","M10 2 L10 22","M16 2 L16 22","M22 2 L22 22"];
+  const slashPath = "M2 24 L26 0";
+  const dummyDays = [3,5,2,4,5,1,4,5,3,2,5,4,0,3,5,4,2,5,5,3,4,1,5,4,3,2,5,4,3,0,0];
+  const calEl = document.getElementById('calDays');
+  const startPad = 2; // July 1 2026 falls midweek for demo
+  for(let i=0;i<startPad;i++){
+    const pad = document.createElement('div'); pad.className='cal-cell pad';
+    calEl.appendChild(pad);
+  }
+  for(let d=1; d<=31; d++){
+    const done = dummyDays[d-1] ?? 0;
+    const cell = document.createElement('div');
+    cell.className = 'cal-cell' + (d===2 ? ' today' : '');
+    let tallySvg = `<svg width="18" height="14" viewBox="0 0 30 26">`;
+    for(let s=0;s<4;s++){
+      const on = done > s;
+      tallySvg += `<path d="${strokePaths[s]}" class="${on?'tally-stroke':'tally-empty'}"/>`;
+    }
+    tallySvg += `<path d="${slashPath}" class="${done>=5?'tally-slash':'tally-empty'}"/>`;
+    tallySvg += `</svg>`;
+    const g1 = (d*7)%5 > 1, g2 = (d*3)%5 > 2;
+    cell.innerHTML = `<span class="num">${d}</span>${tallySvg}<div class="cal-dots"><span class="${g1?'on':''}"></span><span class="${g2?'on':''}"></span></div>`;
+    calEl.appendChild(cell);
+  }
+</script>
+</body>
+</html>

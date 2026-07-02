@@ -105,6 +105,10 @@ Flagged as its own epic rather than folded into Epic 6 so it doesn't get built a
 
 ---
 
+## MVP 2.5 — Goal Management, Milestones, Dashboard Rework (built)
+
+A separate, nearer-term pass than `ready_MVP2.md`'s streak-gated features above — spec lives in `ready_MVP2_5.md` and `ready_prototype_v2.html`, now built. Its own epics are numbered 12–15 there (Goal Management, Goal Milestones, Dashboard Changes, Settings Simplification) — a numbering collision with Epic 12 above (AI journal recap) since the two docs were written independently; they're unrelated features, and Epic 12 above (AI recap) is still untouched. See `PROJECT_STATUS.md` for what shipped and the judgment calls made.
+
 ## Recommended POC sequencing (first working version)
 1. Epic 1 (data & API, including the new journal-flashback endpoint)
 2. Epic 2 (profile picker, including splash image)
