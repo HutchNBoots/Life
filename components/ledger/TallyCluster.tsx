@@ -11,14 +11,18 @@ import { motion, useReducedMotion } from "framer-motion";
 const STROKE_PATHS = ["M4 2 L4 22", "M10 2 L10 22", "M16 2 L16 22", "M22 2 L22 22"];
 const SLASH_PATH = "M2 24 L26 0";
 
+export type TallyVariant = "ember" | "pebble";
+
 export function TallyCluster({
   filledCount,
   size = 30,
   className,
+  variant = "ember",
 }: {
   filledCount: number;
   size?: number;
   className?: string;
+  variant?: TallyVariant;
 }) {
   const shouldReduceMotion = useReducedMotion();
   const strokesFilled = Math.min(Math.max(filledCount, 0), 4);
@@ -27,6 +31,8 @@ export function TallyCluster({
   const strokeDuration = shouldReduceMotion ? 0 : 0.28;
   const slashDuration = shouldReduceMotion ? 0 : 0.35;
   const slashDelay = shouldReduceMotion ? 0 : 0.05;
+  const strokeClass = variant === "pebble" ? "tally-stroke-pebble" : "tally-stroke";
+  const slashClass = variant === "pebble" ? "tally-slash-pebble" : "tally-slash";
 
   return (
     <svg width={size} height={height} viewBox="0 0 30 26" aria-hidden="true" className={className}>
@@ -41,7 +47,7 @@ export function TallyCluster({
           <motion.path
             key={d}
             d={d}
-            className="tally-stroke"
+            className={strokeClass}
             initial={false}
             animate={{ pathLength: filled ? 1 : 0, opacity: filled ? 1 : 0 }}
             transition={{ duration: strokeDuration, ease: "easeOut" }}
@@ -50,7 +56,7 @@ export function TallyCluster({
       })}
       <motion.path
         d={SLASH_PATH}
-        className="tally-slash"
+        className={slashClass}
         initial={false}
         animate={{ pathLength: slashFilled ? 1 : 0, opacity: slashFilled ? 1 : 0 }}
         transition={{ duration: slashDuration, ease: "easeOut", delay: slashFilled ? slashDelay : 0 }}

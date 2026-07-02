@@ -3,17 +3,10 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { GoalEditRow } from "./GoalEditRow";
 import { PrefToggle } from "./PrefToggle";
 import { getMotionPref, setMotionPref, getHapticsPref, setHapticsPref } from "@/lib/preferences";
 
-export function SettingsScreen({
-  profileName,
-  goals,
-}: {
-  profileName: string;
-  goals: { id: string; label: string }[];
-}) {
+export function SettingsScreen({ profileName }: { profileName: string }) {
   const router = useRouter();
   const [fullMotion, setFullMotion] = useState(true);
   const [hapticsOn, setHapticsOn] = useState(true);
@@ -40,13 +33,6 @@ export function SettingsScreen({
       </div>
       <div className="mb-1 font-display text-[44px] leading-tight text-paper">Settings</div>
       <div className="mb-5 text-base text-[rgba(255,218,185,0.55)]">Signed in as {profileName}</div>
-
-      <div className="mb-6">
-        <div className="mb-2.5 text-base uppercase tracking-[.09em] text-[rgba(255,218,185,0.5)]">Your goals</div>
-        {goals.map((goal) => (
-          <GoalEditRow key={goal.id} id={goal.id} label={goal.label} />
-        ))}
-      </div>
 
       <div className="mb-6">
         <div className="mb-2.5 text-base uppercase tracking-[.09em] text-[rgba(255,218,185,0.5)]">Motion & haptics</div>

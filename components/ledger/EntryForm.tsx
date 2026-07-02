@@ -5,6 +5,7 @@ import { TallyCluster } from "./TallyCluster";
 import { StampToggle } from "./StampToggle";
 import { FieldLabel } from "./FieldLabel";
 import { AutoGrowTextarea } from "./AutoGrowTextarea";
+import { MilestoneCelebration, type MilestoneUnlock } from "@/components/goals/MilestoneCelebration";
 import { haptic } from "@/lib/haptics";
 import type { GoalWithTodayState } from "@/lib/queries";
 
@@ -35,6 +36,7 @@ export function EntryForm({
   const [goals, setGoals] = useState(initialGoals);
   const [status, setStatus] = useState("");
   const [glow, setGlow] = useState(false);
+  const [milestoneUnlock, setMilestoneUnlock] = useState<MilestoneUnlock | null>(null);
   const timers = useRef<Partial<Record<keyof EntryFieldsState, ReturnType<typeof setTimeout>>>>({});
   const statusTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -74,11 +76,14 @@ export function EntryForm({
 
   async function handleGoalToggle(goalId: string, achieved: boolean) {
     setGoals((gs) => gs.map((g) => (g.id === goalId ? { ...g, achievedToday: achieved } : g)));
-    await fetch("/api/goals/log", {
+    const res = await fetch("/api/goals/log", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ goalId, achieved }),
     });
+    if (!res.ok) return;
+    const data = await res.json();
+    if (data.milestoneUnlock) setMilestoneUnlock(data.milestoneUnlock);
   }
 
   return (
@@ -141,6 +146,7 @@ export function EntryForm({
 
         <div className="mt-3.5 min-h-[16px] font-mono text-base text-mountain/55">{status}</div>
       </div>
+      <MilestoneCelebration unlock={milestoneUnlock} onDismiss={() => setMilestoneUnlock(null)} />
     </div>
   );
 }

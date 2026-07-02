@@ -6,6 +6,22 @@ _Written for handoff to whoever owns the `ready_*.md` planning docs, to use as i
 
 The POC is fully built and deployed: Next.js 14 app on Vercel, Postgres on Railway, all six screens working end-to-end against a live database, used daily by the pilot group. Epics 1–11 are done. Epic 12 (AI recap) hasn't been touched, per the explicit instruction not to build it without a go-ahead.
 
+## MVP 2.5 — Goal Management, Milestones, Dashboard Rework
+
+Built this session from `ready_prototype_v2.html` + `ready_MVP2_5.md` (uploaded prototype/backlog pair, now saved into the repo). Adds a new **Goals** tab (between Dashboard and Spirits) for add/rename/archive of binary goals, a per-goal streak "prize" ladder (3/7/14/30/60/90/180/365 days) separate from the spirit-animal system, and reworks the dashboard into a 2×2 streak/goal block above the CTA, above the calendar.
+
+New data model: `BinaryGoal.archivedAt`, `GoalMilestoneTier` (global, seeded), `GoalMilestoneUnlock` (permanent per-goal unlock record, mirrors `ProfileSpiritUnlock`). Migration: `prisma/migrations/20260702132137_goal_milestones`.
+
+Judgment calls made while implementing (spec was silent or the prototype/backlog text disagreed):
+- **Archiving reuses the existing `BinaryGoal.active` flag** (already gated Today/calendar queries) plus a new `archivedAt` timestamp, instead of adding a second `archived` boolean as the doc's data-model section literally listed. Avoids two booleans that would always have to move in lockstep.
+- **Archived goals disappear from the Goals tab entirely**, not just from Today — the prototype's own click-through copy said "hidden from Today" (implying still visible, dimmed), but the backlog's Epic 12 bullet said "disappears from Today and the active Goals list." Went with the backlog text; confirmed with the project owner before building.
+- **Dashboard keeps the "From the journal" card** — the prototype screen omits it, but nothing in the backlog says to remove it and it's a real, working feature. Confirmed with the project owner before building.
+- **Goal-chip tally color is `pebble`** (existing token), standing in for the prototype's old `moss` green, which isn't one of this app's 7 named design tokens.
+- **Companion badge size left at 83px** (not reverted to the prototype file's 66px) — that size was a deliberate, documented fix earlier in the project; the smaller value in this new prototype file looks like incidental leftover styling, not an instruction.
+- Milestone seal glyph is a plain ribbon/circle icon (distinct from the animal `SpiritIcon`s), per the backlog's explicit ask for a related-but-distinct glyph.
+
+Still open from this pass (all P1/P2, none blocking): reorder goals, per-goal custom milestone schedule, optional private note on milestone unlock, and the backlog's own flagged open question of whether the "Prize won" pop-up is more celebratory than this app's usual restraint — worth a pilot-group read before treating it as final.
+
 ## Deployment
 
 - **App**: Vercel, deployed from `main` (every push auto-deploys — no staging branch, single-developer workflow, no feature branches)
