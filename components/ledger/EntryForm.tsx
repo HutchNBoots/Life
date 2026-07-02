@@ -109,7 +109,7 @@ export function EntryForm({
         </div>
 
         <div className="mb-4">
-          <FieldLabel colorClassName="text-[#a15a68]">on my mind</FieldLabel>
+          <FieldLabel colorClassName="text-blush-ink">on my mind</FieldLabel>
           <AutoGrowTextarea
             placeholder="What's on your mind?"
             value={fields.toSort}

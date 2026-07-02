@@ -5,7 +5,7 @@ This file is read by Claude Code at the start of every session in this repo. Fol
 **This file supersedes the original `CLAUDE.md`.** The app was renamed from "Ledger" to "Life" and re-themed mid-project. If you see references to "Ledger" or to `brass`/`plum-clay`/`moss` colors anywhere (old docs, old prototype), they're stale — this file and `ready_prototype.html` are current.
 
 ## What this project is
-A small pilot (3 people, no real auth) daily positive-thinking tracker called **Life**. Full context: `ready_PROJECT_SCOPE.md`. Work items: `ready_BACKLOG.md`. Visual/interaction direction: `ready_UX_DESIGN.md` — this is not optional flavor text, it's a hard requirement from the project owner that the app must not look like a generic AI-generated template.
+A small pilot (4 people — Alex, Sam, Jo, Lex — no real auth) daily positive-thinking tracker called **Life**. Grew from the original 3-person pilot mid-build; Lex was added as a 4th profile. Full context: `ready_PROJECT_SCOPE.md`. Work items: `ready_BACKLOG.md`. Visual/interaction direction: `ready_UX_DESIGN.md` — this is not optional flavor text, it's a hard requirement from the project owner that the app must not look like a generic AI-generated template.
 
 ## Stack
 - Next.js 14, App Router, TypeScript (strict mode on)
@@ -25,7 +25,7 @@ A small pilot (3 people, no real auth) daily positive-thinking tracker called **
 7. **Haptics are feature-detected, never assumed.** `navigator.vibrate` doesn't exist on iOS Safari — code must no-op cleanly, not throw.
 8. **Respect `prefers-reduced-motion`** everywhere Framer Motion is used.
 9. **Data is scoped per profile.** Every query (`DailyEntry`, `BinaryGoal`, `BinaryGoalLog`) must filter by the current profile — there is no "read everyone's data" view in this POC.
-10. **"Day" boundaries are timezone-explicit**, not implicit browser-local. Decide and document the timezone logic in one place (`lib/date.ts` or similar) and use it everywhere.
+10. **"Day" boundaries are timezone-explicit**, not implicit browser-local. Decide and document the timezone logic in one place (`lib/date.ts` or similar) and use it everywhere. Resolved: `Europe/London` (the pilot group's actual location), configurable via `APP_TIMEZONE`.
 11. **Do not build the AI recap/journal-summary feature** without an explicit go-ahead. It's discussed as a longer-term idea in `ready_PROJECT_BRIEF.md` Open Items but conflicts with the current `ready_PROJECT_SCOPE.md` scope exclusion and needs a real backend + LLM integration this POC doesn't have yet.
 
 ## Commands (fill in / confirm once scaffolded)

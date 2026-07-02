@@ -5,27 +5,27 @@
 ## 1. Purpose
 A shared web app for a small pilot group's daily positive-thinking ritual. Each day, each person logs:
 - **3 good things** — small wins to celebrate/appreciate
-- **1 thing to sort** — something unresolved, named to release mental load
-- **1 thing sorted** — something that got resolved (yesterday's "to sort" or a fresh one)
+- **1 thing on my mind** — something unresolved, named to catch a worry and let it go, not a to-do item (renamed from "to sort" during the build — it read too task-like)
+- **1 thing sorted** — something that got resolved (yesterday's "on my mind" or a fresh one)
 - **2 binary goals** — e.g. "avoided booze", "avoided sugar" (configurable, not hardcoded)
 
 The app rewards the act of logging (haptics, animation) and visualises consistency over time (streaks, calendar) — not to gamify for its own sake, but to make the ritual feel good to keep doing.
 
 ## 2. Users
-A pilot group of **3 people** (you + 2 others). No real auth — this is a trusted-pilot, not a public app. On first visit, the person picks their name from a fixed list of 3 profiles; that choice is remembered locally (cookie/localStorage) so they aren't asked again on the same device. No passwords, no email, no sign-up flow.
+A pilot group of **4 people** (Alex, Sam, Jo, Lex — grew from the original 3 mid-build). No real auth — this is a trusted-pilot, not a public app. On first visit, the person picks their name from a fixed list of profiles; that choice is remembered locally (cookie/localStorage) so they aren't asked again on the same device. No passwords, no email, no sign-up flow.
 
-Each person's entries, streaks, and calendar are private to them — the picker just tags which profile is writing, it isn't a security boundary. Fine for a trusted pilot; would need real auth before opening this beyond 3 known people.
+Each person's entries, streaks, and calendar are private to them — the picker just tags which profile is writing, it isn't a security boundary. Fine for a trusted pilot; would need real auth before opening this beyond a handful of known people.
 
 ## 3. Core Features (POC scope)
 
 ### 3.1 Profile picker (no-auth identity)
-- On first load per device: a screen with a splash banner image (misty dusk landscape, fades into the app background) above 3 names, tap to select.
+- On first load per device: a screen with a splash banner (now 3 separate stacked photos — coast, pasture, forest — split from the original single triptych image, fading into the app background) above the 4 names, tap to select.
 - Selection stored in a cookie/localStorage; returning visits skip straight to that person's dashboard.
 - Profile switching lives in Settings, not on the dashboard — see 3.7.
 
 ### 3.2 Daily entry
 - One entry per calendar day **per profile** (user's local timezone).
-- 5 text slots: 3 good things, 1 to sort, 1 sorted.
+- 5 text slots: 3 good things, 1 on my mind, 1 sorted.
 - 2 toggleable binary goals (label + on/off), configurable in settings.
 - Partial entries allowed. Editing today's entry is always allowed; editing past entries allowed but visually distinct.
 - **The date/tally header stays fixed (sticky) at the top of the entry card while the fields scroll beneath it** — the tally draw-in feedback needs to stay visible the entire time someone is filling in an entry, not just at the top of the screen.

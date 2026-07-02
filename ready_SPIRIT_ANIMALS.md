@@ -7,7 +7,7 @@ A collectible companion tied to your current streak. Unlocking a new one is the 
 
 **Important constraint from `ready_UX_DESIGN.md`:** these must not become the generic "cute AI-generated mascot" look (rounded gradient blobs, big sparkly eyes, pastel cartoon). They're rendered as **single-color stamp badges** — like a rubber stamp or wax seal — in `mountain` ink on a `paper` circle (token names updated from the original `brass`/`paper`), matching the stamp motif also used for the binary-goal toggles. Woodcut/linocut posture, not cartoon illustration.
 
-**Prototype note**: the working prototype uses simplified single-line placeholder icons for all 12 badges (a handful of strokes each — ears, tail, a distinguishing feature) rather than final hand-drawn linocut art. That's intentional for the POC — see `ready_BACKLOG.md` Epic 8 — and fine to ship as-is; revisit before any wider release.
+**Build update**: 10 of the 15 tiers now use real artwork — otter, wren, panda, badger, fox, pelican, sloth, owl, capybara, flamingo — extracted from uploaded reference images (background/border removed programmatically, recolored to `mountain` ink, transparent PNG). The remaining 5 (tortoise, narwhal, stag, raven, phoenix) still use the simplified single-line placeholder icons described below, since no reference art has been uploaded for them yet.
 
 ## Unlock schedule — updated this session
 
@@ -33,7 +33,9 @@ Three new early tiers (days 3, 5, 7) were added to support MVP2 feature-gating (
 
 Days 4, 5, 7, and 8 are now close together (four tiers within the first week) — that's a deliberate density, not an oversight: it matches the existing "rewards front-loaded early" rationale already cited from Lally et al. in `ready_SCIENCE.md`, and it's what makes the MVP2 feature unlocks feel frequent during the exact window (the first two weeks) where habit formation is most fragile.
 
-**Collection screen note**: the Spirits grid grows from 12 to 15 slots. The current prototype's grid is a 3-column layout sized for 12 (4 rows) — will need a 5th row, or a column-count change, when MVP2 badges are added. Not yet updated in `ready_prototype.html`.
+**Collection screen note**: built as a 3-column, 5-row grid (15 slots) — the extra row needed for the grid to grow from 12 to 15 is done. `ready_prototype.html` itself was never updated to match (it's the original design reference, not the shipped app).
+
+**Unlock reveal, built**: the first time a tier is newly unlocked, its badge does a radial reveal animation (a clip-path wipe, not literal stroke-drawing — most tiers are now raster photo-derived art, not paths) plus a brief `ember` glow ring and a haptic pulse, with the dashboard copy line reading "just unlocked" instead of "N days to next tier." Fires exactly once per tier per profile (recording the unlock in `profile_spirit_unlocks` is what suppresses the replay, not a separate "seen" flag).
 
 ## Where it shows up — updated this session
 - **Dashboard**: the current spirit animal badge is now **combined with the profile name into a single header element** (not a separate card, as originally spec'd) — badge on the left, name and progress copy ("Smug Pelican · 2 days to Zen Sloth") stacked to the right. The whole header is tappable and jumps to the Spirits screen. No progress bar — the tally-mark language is already the progress bar in this app.

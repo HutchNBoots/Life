@@ -14,6 +14,7 @@ const config: Config = {
         paper: "#FFDAB9",
         ember: "#D97B4F",
         blush: "#E7C5C1",
+        "blush-ink": "#A15A68",
         pebble: "#727F8A",
       },
       fontFamily: {

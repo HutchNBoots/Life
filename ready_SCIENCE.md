@@ -17,9 +17,9 @@ The exercise has since been repeated in nurses, insomniac adults, Israeli adults
 
 ## Why naming what's unresolved helps
 
-There's a separate, older line of research behind the "to sort" slot. In the 1920s, psychologist Bluma Zeigarnik noticed that waiters remembered unpaid orders in far more detail than paid ones — unfinished tasks stay mentally "open" in a way finished ones don't. Later work (Masicampo & Baumeister, 2011) found that unresolved goals produce intrusive thoughts that pull at attention — and, importantly, that simply writing down a concrete plan for the unfinished thing reduces that intrusion, even before it's actually done.
+There's a separate, older line of research behind the "on my mind" slot (renamed from "to sort" during the build — it read too much like a task). In the 1920s, psychologist Bluma Zeigarnik noticed that waiters remembered unpaid orders in far more detail than paid ones — unfinished tasks stay mentally "open" in a way finished ones don't. Later work (Masicampo & Baumeister, 2011) found that unresolved goals produce intrusive thoughts that pull at attention — and, importantly, that simply writing down a concrete plan for the unfinished thing reduces that intrusion, even before it's actually done.
 
-That's the logic of the "to sort" slot: naming the loose end, in writing, does real cognitive work even before it's resolved. The "sorted" slot closes the loop on something and lets it stop pulling at attention.
+That's the logic of the "on my mind" slot: naming the worry, in writing, catches it and lets it go, even before it's resolved. The "sorted" slot closes the loop on something and lets it stop pulling at attention.
 
 ## Why noticing good things does more than feel nice
 

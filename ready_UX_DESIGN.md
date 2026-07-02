@@ -17,14 +17,15 @@ Sourced from a reference photo (dusk over misty mountains and still water) and a
 | `mountain` | `#3B596A` | *(given, "Deep Mountain")* — ink text/borders on `paper` surfaces |
 | `paper` | `#FFDAB9` | *(given, "Peach Sky")* — the "ledger page" surface, used for the entry card and calendar grid only, not the whole app |
 | `ember` | `#D97B4F` | Derived — a deeper, more saturated shade of `paper`'s hue. Primary accent: good things, tally strokes, streak numbers, CTAs. Needed because `paper` itself is too close in lightness to read as an accent against itself. |
-| `blush` | `#E7C5C1` | *(given, "Reflective Pink")* — "to sort." Attention without alarm, muted, not red. |
+| `blush` | `#E7C5C1` | *(given, "Reflective Pink")* — surface tint for "on my mind" (renamed from "to sort" during the build). Attention without alarm, muted, not red. |
+| `blush-ink` | `#A15A68` | Derived during the build — a readable-contrast ink shade of `blush`, same relationship `ember` has to `paper`. Used as the "on my mind" field-label text color on the paper surface, where raw `blush` is too light to read. |
 | `pebble` | `#727F8A` | *(given, "Pebble Grey")* — "sorted" / goal achieved, and secondary/muted text throughout |
 
 This is still deliberately not the "cream background + high-contrast serif + terracotta" default: the dominant surface is a dark, cool dusk tone, paper is a secondary warm card texture, and the accent triad (ember/blush/pebble) maps to meaning (celebrate / unresolved / resolved), not decoration.
 
-### Type — unchanged
-- **Display** — Fraunces, used only for date headings and milestone moments ("Day 12," profile name).
-- **Body/UI** — Inter, for labels, inputs, buttons.
+### Type — sizes revised during the build
+- **Display** — Fraunces, used only for date headings and milestone moments ("Day 12," profile name). Titles doubled in size during the build for readability (e.g. page titles 22px → 44px, entry date 20px → 40px).
+- **Body/UI** — Inter, for labels, inputs, buttons. All body text raised to a 16px floor during the build (was as small as 10-11px in places) — real usability feedback, not an aesthetic call. Two exceptions kept below 16px because raising them breaks a fixed-size layout: the calendar's per-day grid numerals, and the bottom-nav tab labels.
 - **Data** — IBM Plex Mono, for streak counts, calendar numerals, dates on the journal card.
 
 ### Navigation — bottom tab bar (new this session)
@@ -50,12 +51,15 @@ Still built on the same idea: a **ledger page**, not a form.
 PICKER (first load on a device)
 
   ┌─────────────────────────────┐
-  │  [ splash photo, fades into │  ← misty dusk landscape banner,
-  │    dusk background at the   │     new this session
-  │    bottom edge ]             │
-  │                               │
-  │           Life                │  ← wordmark, Fraunces
-  │        Who's logging?        │
+  │  [ 3 stacked photos — coast, │  ← split during the build from one
+  │    pasture, forest — fading │     combined triptych file into 3
+  │    into dusk at the bottom  │     separate images (same visual
+  │    edge ]                    │     result, reused individually
+  │                               │     elsewhere — see Science/Settings)
+  │           Life                │  ← wordmark, Fraunces, 40px
+  │  capture the small joys      │  ← tagline added during the build,
+  │      of the day              │     italic, larger size (text-2xl)
+  │      Who's living today?     │  ← "Who's logging?" reworded
   │                               │
   │   ┌─────────┐                │
   │   │  Alex   │                │
@@ -63,6 +67,8 @@ PICKER (first load on a device)
   │   │  Sam    │                │
   │   ├─────────┤                │
   │   │  Jo     │                │
+  │   ├─────────┤                │
+  │   │  Lex    │                │  ← 4th profile added during the build
   │   └─────────┘                │
   └─────────────────────────────┘
 ```
@@ -75,17 +81,20 @@ ENTRY SCREEN — sticky header (new this session)
   │  Jo                          │     of the card while the fields
   ├─────────────────────────────┤     below it scroll underneath.
   │  ↕ (scrolls)                 │     The tally draw-in is the core
-  │  ── good things ──           │     reward moment — it must stay
+  │  ── good things today ──     │     reward moment — it must stay
   │  1. ______________________   │     visible the whole time someone
   │  2. ______________________   │     is filling in an entry, not
   │  3. ______________________   │     just at the top of the screen.
-  │  ── to sort ──                │
-  │  ______________________      │
-  │  ── sorted ──                 │
+  │  ── on my mind ──             │  ← renamed from "to sort" during the
+  │  ______________________      │     build — reads as catching a
+  │  ── sorted ──                 │     worry to release it, not a task
   │  ______________________      │
   │  ⬤ avoided sugar   ⬤ no wine │
   └─────────────────────────────┘
 ```
+Fields grow to fit long entries (multi-line) instead of scrolling text
+sideways in a single-line input — added during the build, no modal
+introduced (the design system doesn't use modals anywhere).
 
 ```
 DASHBOARD — reworked this session
@@ -112,9 +121,12 @@ DASHBOARD — reworked this session
 ```
 
 ```
-SETTINGS — unchanged, plus a Dev section
+SETTINGS — Dev section never built (not just hidden — see CLAUDE.md)
 
   ┌─────────────────────────────┐
+  │  [ forest photo banner,     │  ← added during the build, same
+  │    new this build ]          │     treatment as the picker splash
+  │  Settings                     │
   │  Your goals                  │
   │  ┌─────────────────────────┐│
   │  │ avoided sugar          ✎││
@@ -127,19 +139,20 @@ SETTINGS — unchanged, plus a Dev section
   │                               │
   │  Device                       │
   │  [ Switch profile ]           │
-  │                               │
-  │  Dev                          │  ← build-time only, must not
-  │  [ picker today dash ... ]   │     ship — see CLAUDE.md
   └─────────────────────────────┘
 ```
 
+The Science tab also gained a banner during the build (the pasture/cows
+photo), same treatment, at the top above "Why this works."
+
 ### States worth designing deliberately (updated)
-- **Empty month**: unchanged from original — empty tally outlines, no "0 entries" system-speak.
-- **Backfilled entry**: unchanged — muted date + `(added later)` label.
-- **API/save failure**: unchanged — thin blush underline + inline message, no modal.
-- **Streak broken**: unchanged — no scolding, streak card (now strip) just resets quietly.
+- **Empty month**: built — empty tally outlines, no "0 entries" system-speak.
+- **Backfilled entry**: **not built** — no backfill/edit-past-day flow exists in this POC at all (both are gated to `ready_MVP2.md`), so there's nothing yet for this state to attach to.
+- **API/save failure**: **not built** — a real gap found after the fact, not just deferred. Right now a failed save silently does nothing (no error message shown at all). Still needs the thin blush underline + inline message this doc specifies.
+- **Streak broken**: built — no scolding, streak card (now strip) just resets quietly.
 - **Today complete, on the dashboard (now implemented)**: "Log today →" is replaced entirely by a compact banner showing the day's filled tally cluster and "Today's logged." — not a toast, not a modal, a permanent state change until the next calendar day.
-- **No past entries yet, for the journal card**: if a profile has no prior good things to pull from, the card should say something plain like "Nothing to look back on yet" rather than showing an empty quote — needs a copy line, not yet written; flag to whoever builds this.
+- **No past entries yet, for the journal card**: built — copy reads "Nothing to look back on yet."
+- **Spirit-animal unlock reveal (new, built during this build)**: the first time a tier is newly unlocked, its badge does a radial reveal + brief ember glow + haptic pulse on the dashboard, with the copy line reading "just unlocked" instead of the usual "N days to next tier." Fires exactly once per tier per profile.
 
 ### Signature element: the tally cluster — unchanged
 Still the one place the design spends its boldness. Four strokes + one diagonal slash, drawn in via SVG stroke animation as each slot saves.
