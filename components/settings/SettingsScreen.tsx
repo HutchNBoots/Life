@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { PrefToggle } from "./PrefToggle";
 import { getMotionPref, setMotionPref, getHapticsPref, setHapticsPref } from "@/lib/preferences";
 
-export function SettingsScreen({ profileName }: { profileName: string }) {
+export function SettingsScreen({ profileName, version }: { profileName: string; version: string }) {
   const router = useRouter();
   const [fullMotion, setFullMotion] = useState(true);
   const [hapticsOn, setHapticsOn] = useState(true);
@@ -74,6 +74,8 @@ export function SettingsScreen({ profileName }: { profileName: string }) {
           Switch profile
         </button>
       </div>
+
+      <div className="pb-2 text-center font-mono text-base text-[rgba(255,218,185,0.3)]">Version {version}</div>
     </div>
   );
 }
