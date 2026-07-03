@@ -27,13 +27,13 @@
 
 ## Epic 3 — Daily Entry Form
 - [P0] Form UI: 3 good things, 1 on my mind, 1 sorted (5 text inputs) — **"to sort" renamed to "on my mind" during the build**; fields also grow to fit long entries instead of scrolling sideways in a single-line input
-- [P0] Form UI: 2 binary goal toggles
+- [P0] Form UI: 2 binary goal toggles — **extended to a 3-way stamp this session**: blank (not indicated) → met → missed → back to blank. Reported from real use (missed a day, ate something off-plan) — previously "not done" and "not logged yet" looked identical; missed is now an explicit mark, not just an absence.
 - [P0] **Sticky date/tally header** (new this session) — the header stays pinned to the top of the entry card while the fields scroll beneath it. This is a deliberate requirement, not default browser behavior — see `ready_UX_DESIGN.md`.
 - [P0] Autosave or explicit save per field (recommend per-field, unchanged)
 - [P0] Haptic pulse on successful save
 - [P0] Micro-animation on save, distinct per slot type
 - [P0] "Day complete" celebratory state when all 5 + both goals are filled
-- [P1] Visual distinction for backfilled entries — not built (no backfill/edit-past-day flow exists yet to attach it to)
+- [P1] Visual distinction for backfilled entries — **built**: an "Added later" badge next to the date on any day other than today.
 - [P2] Undo on accidental save — not built
 - [P1] **API/save-failure state (found post-build, not on this list originally):** `ready_UX_DESIGN.md` specifies a thin blush underline + inline message on save failure; currently a failed save just silently does nothing. Real gap, worth fixing.
 

@@ -8,7 +8,7 @@ import { FieldLabel } from "./FieldLabel";
 import { AutoGrowTextarea } from "./AutoGrowTextarea";
 import { MilestoneCelebration, type MilestoneUnlock } from "@/components/goals/MilestoneCelebration";
 import { haptic } from "@/lib/haptics";
-import type { GoalWithTodayState } from "@/lib/queries";
+import type { GoalWithTodayState, GoalLogState } from "@/lib/queries";
 
 interface EntryFieldsState {
   goodThing1: string;
@@ -20,7 +20,6 @@ interface EntryFieldsState {
 
 export function EntryForm({
   date,
-  profileName,
   dateLabel,
   initialFields,
   initialFilledCount,
@@ -29,7 +28,6 @@ export function EntryForm({
   backHref,
 }: {
   date: string;
-  profileName: string;
   dateLabel: string;
   initialFields: EntryFieldsState;
   initialFilledCount: number;
@@ -85,12 +83,12 @@ export function EntryForm({
     }, 300);
   }
 
-  async function handleGoalToggle(goalId: string, achieved: boolean) {
-    setGoals((gs) => gs.map((g) => (g.id === goalId ? { ...g, achievedToday: achieved } : g)));
+  async function handleGoalStateChange(goalId: string, next: GoalLogState) {
+    setGoals((gs) => gs.map((g) => (g.id === goalId ? { ...g, state: next } : g)));
     const res = await fetch("/api/goals/log", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ goalId, achieved, date }),
+      body: JSON.stringify({ goalId, state: next, date }),
     });
     if (!res.ok) return;
     const data = await res.json();
@@ -110,14 +108,11 @@ export function EntryForm({
             </Link>
           )}
           <div className="font-display text-[40px] font-semibold leading-tight text-mountain">{dateLabel}</div>
-          <div className="mt-0.5 flex items-center gap-2 text-base text-mountain/55">
-            {profileName}
-            {isBackfilled && (
-              <span className="rounded-full bg-mountain/10 px-2 py-0.5 font-mono text-[11px] uppercase tracking-[.06em] text-mountain/55">
-                backfilled
-              </span>
-            )}
-          </div>
+          {isBackfilled && (
+            <span className="mt-0.5 inline-block rounded-full bg-mountain/10 px-2 py-0.5 font-mono text-[11px] uppercase tracking-[.06em] text-mountain/55">
+              Added later
+            </span>
+          )}
         </div>
         <TallyCluster filledCount={filledCount} />
       </div>
@@ -161,8 +156,8 @@ export function EntryForm({
             <StampToggle
               key={goal.id}
               label={goal.label}
-              achieved={goal.achievedToday}
-              onToggle={(next) => handleGoalToggle(goal.id, next)}
+              state={goal.state}
+              onChange={(next) => handleGoalStateChange(goal.id, next)}
             />
           ))}
         </div>

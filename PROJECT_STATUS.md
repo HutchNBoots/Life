@@ -30,6 +30,13 @@ Reported from real pilot use: a user missed a day and had no way to fix it. Tapp
 
 Both real gaps noted in the previous version of this doc are now resolved: the backfill flow exists (this section), and backfilled entries have a visual distinction (the badge above) to attach to. The API/save-failure gap (thin blush underline + inline message on a failed save) is still open — unrelated to this change.
 
+## Four fixes from a pilot bug report
+
+- **"Added later" badge, renamed from "backfilled".** Reported as not matching the app's plain, human voice. The project owner picked "Added later" from a shortlist.
+- **Signed-in name removed from the entry screen** (Today and backfilled-day views) — just the date and tally now; profile name still shows on the dashboard header and Settings.
+- **Binary goals are now a 3-way stamp, not a toggle**: blank (not indicated) → met (filled dot) → missed (rose-colored cross) → back to blank. Reported from real use — eating something off-plan needs an explicit "missed" mark, distinct from just not having logged it yet. Data model already supported this (a `BinaryGoalLog` row with `achieved: false` vs. no row at all); "unset" now deletes the row instead of the API only ever being able to write `true`/`false`. Streak math is unaffected — missed and unset were already both excluded from streak counts.
+- **Rename-creates-a-duplicate bug: not reproduced.** Tested the rename flow directly (network + DB inspection) against current `main` and it correctly updates the existing goal row in place, no duplicate. Added a defensive guard against double-submission regardless (Enter + blur firing back-to-back). **Dashboard-as-landing-page: also not reproduced** — `/` and a fresh visit with an existing session both land on `/dashboard` in current code. Both of these, plus the version number "disappearing," point at the same thing: worth confirming you're testing the latest deployed build (hard refresh / incognito) rather than a stale one, since I don't have direct access to the Vercel deploy history from this session to rule that out myself.
+
 ## Deployment
 
 - **App**: Vercel, deployed from `main` (every push auto-deploys — no staging branch, single-developer workflow, no feature branches)

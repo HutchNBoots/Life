@@ -31,7 +31,6 @@ export default async function EntryDatePage({ params }: { params: { date: string
   return (
     <EntryForm
       date={date}
-      profileName={profile.name}
       dateLabel={formatDayLabel(date)}
       initialFields={{
         goodThing1: entry?.goodThing1 ?? "",

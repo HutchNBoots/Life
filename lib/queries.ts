@@ -16,14 +16,22 @@ export async function getTodayEntry(profileId: string) {
   return getEntryForDate(profileId, todayString());
 }
 
+/**
+ * A goal's state for a given day: no log row at all ("unset" — not yet
+ * indicated either way), a row with achieved=true ("met"), or a row with
+ * achieved=false ("missed" — explicitly marked as not done, distinct from
+ * simply not having logged it yet).
+ */
+export type GoalLogState = "unset" | "met" | "missed";
+
 export interface GoalWithTodayState {
   id: string;
   label: string;
   sortOrder: number;
-  achievedToday: boolean;
+  state: GoalLogState;
 }
 
-/** Goals + their achieved state for an arbitrary day, scoped to profile. */
+/** Goals + their state for an arbitrary day, scoped to profile. */
 export async function getGoalsForDate(profileId: string, day: string): Promise<GoalWithTodayState[]> {
   const date = dayStringToDate(day);
   const goals = await prisma.binaryGoal.findMany({
@@ -31,12 +39,11 @@ export async function getGoalsForDate(profileId: string, day: string): Promise<G
     orderBy: { sortOrder: "asc" },
     include: { logs: { where: { date } } },
   });
-  return goals.map((g) => ({
-    id: g.id,
-    label: g.label,
-    sortOrder: g.sortOrder,
-    achievedToday: g.logs[0]?.achieved ?? false,
-  }));
+  return goals.map((g) => {
+    const log = g.logs[0];
+    const state: GoalLogState = !log ? "unset" : log.achieved ? "met" : "missed";
+    return { id: g.id, label: g.label, sortOrder: g.sortOrder, state };
+  });
 }
 
 export async function getGoalsWithTodayState(profileId: string): Promise<GoalWithTodayState[]> {

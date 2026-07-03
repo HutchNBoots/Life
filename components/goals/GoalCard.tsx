@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { MilestoneGrid } from "./MilestoneGrid";
 import type { GoalWithMilestones } from "@/lib/queries";
 
@@ -16,23 +16,33 @@ export function GoalCard({
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(goal.label);
   const [archiving, setArchiving] = useState(false);
+  // Enter fires onKeyDown's commit(), which can also trigger a blur (and
+  // therefore onBlur's commit()) as the input unmounts — guard against
+  // both firing so a single rename never sends two requests.
+  const committingRef = useRef(false);
 
   async function commit() {
+    if (committingRef.current) return;
     const trimmed = value.trim();
     setEditing(false);
     if (!trimmed || trimmed === goal.label) {
       setValue(goal.label);
       return;
     }
-    const res = await fetch(`/api/goals/${goal.id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ label: trimmed }),
-    });
-    if (res.ok) {
-      onRenamed(trimmed);
-    } else {
-      setValue(goal.label);
+    committingRef.current = true;
+    try {
+      const res = await fetch(`/api/goals/${goal.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ label: trimmed }),
+      });
+      if (res.ok) {
+        onRenamed(trimmed);
+      } else {
+        setValue(goal.label);
+      }
+    } finally {
+      committingRef.current = false;
     }
   }
 
