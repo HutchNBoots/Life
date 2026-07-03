@@ -22,6 +22,14 @@ Judgment calls made while implementing (spec was silent or the prototype/backlog
 
 Still open from this pass (all P1/P2, none blocking): reorder goals, per-goal custom milestone schedule, optional private note on milestone unlock, and the backlog's own flagged open question of whether the "Prize won" pop-up is more celebratory than this app's usual restraint — worth a pilot-group read before treating it as final.
 
+## Calendar backfill (built)
+
+Reported from real pilot use: a user missed a day and had no way to fix it. Tapping any day up to and including today on the dashboard calendar now opens `/entry/[date]` — a generalized version of the entry screen — for viewing/editing; future days aren't clickable. `DailyEntry.backfilled` is set and shown as a small badge once a day other than today has been saved.
+
+**Judgment call**: built fully ungated, no streak requirement — this supersedes `ready_MVP2.md` Feature 1's original 3-day-streak gate on editing, which (as that doc itself warned) would have locked out exactly the person who just missed a day. `ready_MVP2.md` and `ready_BACKLOG.md` are updated to reflect this. Month navigation (moving the calendar to a different month, as opposed to opening a day within the current month) is unaffected and still gated/not built.
+
+Both real gaps noted in the previous version of this doc are now resolved: the backfill flow exists (this section), and backfilled entries have a visual distinction (the badge above) to attach to. The API/save-failure gap (thin blush underline + inline message on a failed save) is still open — unrelated to this change.
+
 ## Deployment
 
 - **App**: Vercel, deployed from `main` (every push auto-deploys — no staging branch, single-developer workflow, no feature branches)
@@ -47,10 +55,11 @@ These are now reflected in the `ready_*.md` docs directly (not just here):
 - **10 of 15 spirit-animal tiers now have real artwork** (uploaded reference images, cleaned up and recolored to the app's ink tone), replacing the placeholder line icons. 5 tiers (tortoise, narwhal, stag, raven, phoenix) still await art.
 - **Explicitly dropped, not deferred**: goal-adherence graph, month-over-month comparison, >2 binary goals support, jump-to-date/year calendar view. These were on the original backlog as P1/P2 items; they've been decided against rather than left pending.
 
-## Two real gaps found late, not yet fixed
+## One real gap still open
 
 - **Save-failure state isn't built at all.** `ready_UX_DESIGN.md` specifies a thin blush underline + inline message on a failed save; right now a failed save just silently does nothing.
-- **Backfilled-entry visual distinction** has nothing to attach to yet, since no backfill/edit-past-day flow exists in this POC (both are correctly gated to `ready_MVP2.md`). **Now confirmed as a real pain point from actual pilot use** (a user missed a day and had no way to fill it in) — see the new `ready_BACKLOG.md` Epic 5 item, which questions whether backfill specifically should be gated at all.
+
+(The other gap noted in an earlier version of this doc — no backfill/edit-past-day flow — is now resolved; see "Calendar backfill (built)" above.)
 
 ## Judgment calls worth a second look
 

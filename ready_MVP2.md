@@ -13,11 +13,17 @@ A locked feature should look the same as a locked spirit badge elsewhere in the 
 ---
 
 ## Feature 1 — Tap a calendar day to open its entry
-**Unlocks: day 3, Chirpy Wren**
+**Built — ungated, superseding the day-3 gate below.**
+
+Tapping any day up to and including today on the dashboard calendar opens `/entry/[date]` for viewing/editing (backfilling), no streak required — see `ready_BACKLOG.md` Epic 5. Reported from real pilot use: a user missed a day and had no way to fill it in, which is exactly the scenario the gating note below warned against. Month navigation (moving the calendar to a different month) is a separate, still-gated concern — see Feature 3 below, unchanged.
+
+<details>
+<summary>Original gated recommendation (superseded)</summary>
 
 Tapping a day on the dashboard calendar opens that day's entry. This was originally a P0 item in the core POC backlog (Epic 5) — moved here and gated per this session.
 
-**Recommended implementation, not fully locked**: let tapping a day always show a **read-only view** of what was logged that day, regardless of streak. Require the day-3 unlock only for **editing**. Fully locking the ability to even see a past entry works against an existing project principle — missed days shouldn't be punishing, and the person most likely to want to open an old day is someone catching up after a gap. A hard lock on viewing would block exactly the person who needs it most. If you want it fully locked (view and edit both gated), say so and I'll change the spec.
+**Recommended implementation, not fully locked**: let tapping a day always show a **read-only view** of what was logged that day, regardless of streak. Require the day-3 unlock only for **editing**. Fully locking the ability to even see a past entry works against an existing project principle — missed days shouldn't be punishing, and the person most likely to want to open an old day is someone catching up after a gap. A hard lock on viewing would block exactly the person who needs it most.
+</details>
 
 ## Feature 2 — Journal tab
 **Unlocks: day 5, Steady Badger**

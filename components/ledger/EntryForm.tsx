@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Link from "next/link";
 import { TallyCluster } from "./TallyCluster";
 import { StampToggle } from "./StampToggle";
 import { FieldLabel } from "./FieldLabel";
@@ -18,21 +19,30 @@ interface EntryFieldsState {
 }
 
 export function EntryForm({
+  date,
   profileName,
   dateLabel,
   initialFields,
   initialFilledCount,
   initialGoals,
+  backfilled = false,
+  backHref,
 }: {
+  date: string;
   profileName: string;
   dateLabel: string;
   initialFields: EntryFieldsState;
   initialFilledCount: number;
   initialGoals: GoalWithTodayState[];
+  /** True once the entry has been saved on a day other than today. */
+  backfilled?: boolean;
+  /** Shown as a small back link above the card — used when reached via a calendar tap on a past day. */
+  backHref?: string;
 }) {
   const [fields, setFields] = useState(initialFields);
   const [filledCount, setFilledCount] = useState(initialFilledCount);
   const [dayComplete, setDayComplete] = useState(initialFilledCount === 5);
+  const [isBackfilled, setIsBackfilled] = useState(backfilled);
   const [goals, setGoals] = useState(initialGoals);
   const [status, setStatus] = useState("");
   const [glow, setGlow] = useState(false);
@@ -51,7 +61,7 @@ export function EntryForm({
 
     if (timers.current[field]) clearTimeout(timers.current[field]);
     timers.current[field] = setTimeout(async () => {
-      const res = await fetch("/api/entries/today", {
+      const res = await fetch(`/api/entries/${date}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ [field]: value }),
@@ -62,6 +72,7 @@ export function EntryForm({
       const wasComplete = dayComplete;
       setFilledCount(data.filledCount);
       setDayComplete(data.dayComplete);
+      setIsBackfilled(data.entry.backfilled);
       haptic(15);
       showStatus("Logged.");
 
@@ -79,7 +90,7 @@ export function EntryForm({
     const res = await fetch("/api/goals/log", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ goalId, achieved }),
+      body: JSON.stringify({ goalId, achieved, date }),
     });
     if (!res.ok) return;
     const data = await res.json();
@@ -93,8 +104,20 @@ export function EntryForm({
     >
       <div className="sticky top-0 z-[2] flex flex-shrink-0 items-start justify-between border-b border-mountain/15 bg-paper px-5 pb-4 pt-5">
         <div>
+          {backHref && (
+            <Link href={backHref} className="mb-1 inline-block font-mono text-base text-mountain/45">
+              ← Dashboard
+            </Link>
+          )}
           <div className="font-display text-[40px] font-semibold leading-tight text-mountain">{dateLabel}</div>
-          <div className="mt-0.5 text-base text-mountain/55">{profileName}</div>
+          <div className="mt-0.5 flex items-center gap-2 text-base text-mountain/55">
+            {profileName}
+            {isBackfilled && (
+              <span className="rounded-full bg-mountain/10 px-2 py-0.5 font-mono text-[11px] uppercase tracking-[.06em] text-mountain/55">
+                backfilled
+              </span>
+            )}
+          </div>
         </div>
         <TallyCluster filledCount={filledCount} />
       </div>

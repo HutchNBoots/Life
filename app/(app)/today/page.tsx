@@ -14,6 +14,7 @@ export default async function TodayPage() {
 
   return (
     <EntryForm
+      date={todayString()}
       profileName={profile.name}
       dateLabel={formatDayLabel(todayString())}
       initialFields={{

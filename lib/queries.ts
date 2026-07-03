@@ -3,12 +3,17 @@ import { todayString, dayStringToDate, dateToDayString, monthBounds } from "./da
 import { filledCount, isDayComplete } from "./tally";
 import { currentStreak, longestStreak } from "./streaks";
 
-export async function getTodayEntry(profileId: string) {
-  const date = dayStringToDate(todayString());
+/** Entry for an arbitrary day (today or a backfilled past day), scoped to profile. */
+export async function getEntryForDate(profileId: string, day: string) {
+  const date = dayStringToDate(day);
   const entry = await prisma.dailyEntry.findUnique({
     where: { profileId_date: { profileId, date } },
   });
   return { entry, filledCount: filledCount(entry), dayComplete: isDayComplete(entry) };
+}
+
+export async function getTodayEntry(profileId: string) {
+  return getEntryForDate(profileId, todayString());
 }
 
 export interface GoalWithTodayState {
@@ -18,8 +23,9 @@ export interface GoalWithTodayState {
   achievedToday: boolean;
 }
 
-export async function getGoalsWithTodayState(profileId: string): Promise<GoalWithTodayState[]> {
-  const date = dayStringToDate(todayString());
+/** Goals + their achieved state for an arbitrary day, scoped to profile. */
+export async function getGoalsForDate(profileId: string, day: string): Promise<GoalWithTodayState[]> {
+  const date = dayStringToDate(day);
   const goals = await prisma.binaryGoal.findMany({
     where: { profileId, active: true },
     orderBy: { sortOrder: "asc" },
@@ -31,6 +37,10 @@ export async function getGoalsWithTodayState(profileId: string): Promise<GoalWit
     sortOrder: g.sortOrder,
     achievedToday: g.logs[0]?.achieved ?? false,
   }));
+}
+
+export async function getGoalsWithTodayState(profileId: string): Promise<GoalWithTodayState[]> {
+  return getGoalsForDate(profileId, todayString());
 }
 
 export interface MonthCalendarDay {

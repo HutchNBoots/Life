@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { TallyCluster } from "@/components/ledger/TallyCluster";
 import { formatMonthLabel, firstWeekdayOfMonth, daysInMonthOf, todayString } from "@/lib/date";
 
@@ -9,8 +10,9 @@ export interface CalendarDay {
 
 /**
  * Month grid, kept in its original visual format (ready_BACKLOG.md Epic 5) —
- * current month only, no navigation and no click-to-open (both gated behind
- * streak milestones in ready_MVP2.md for this POC).
+ * current month only, no navigation (still gated behind a streak milestone
+ * in ready_MVP2.md). Tapping any past-or-today day opens that day's entry
+ * (view/backfill) — deliberately ungated, per the Epic 5 backfill item.
  */
 export function CalendarGrid({ monthAnchor, days, goalCount }: { monthAnchor: string; days: CalendarDay[]; goalCount: number }) {
   const byDate = new Map(days.map((d) => [d.date, d]));
@@ -32,15 +34,14 @@ export function CalendarGrid({ monthAnchor, days, goalCount }: { monthAnchor: st
           const date = `${year}-${month}-${String(d).padStart(2, "0")}`;
           const data = byDate.get(date);
           const isToday = date === today;
+          const isFuture = date > today;
           const goals = data?.goals ?? Array.from({ length: goalCount }, (_, i) => ({ goalId: `pad-${i}`, achieved: false }));
 
-          return (
-            <div
-              key={date}
-              className={`flex aspect-square flex-col items-center justify-center gap-[3px] rounded-md font-mono text-[10px] ${
-                isToday ? "border border-ember bg-ember/[0.14]" : ""
-              }`}
-            >
+          const cellClassName = `flex aspect-square flex-col items-center justify-center gap-[3px] rounded-md font-mono text-[10px] ${
+            isToday ? "border border-ember bg-ember/[0.14]" : ""
+          }`;
+          const cellContent = (
+            <>
               <span className="opacity-60">{d}</span>
               <TallyCluster filledCount={data?.filledCount ?? 0} size={18} />
               <div className="flex gap-[2px]">
@@ -51,7 +52,21 @@ export function CalendarGrid({ monthAnchor, days, goalCount }: { monthAnchor: st
                   />
                 ))}
               </div>
-            </div>
+            </>
+          );
+
+          if (isFuture) {
+            return (
+              <div key={date} className={cellClassName}>
+                {cellContent}
+              </div>
+            );
+          }
+
+          return (
+            <Link key={date} href={isToday ? "/today" : `/entry/${date}`} className={cellClassName}>
+              {cellContent}
+            </Link>
           );
         })}
       </div>
