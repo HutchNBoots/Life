@@ -38,8 +38,8 @@ export function MilestoneCelebration({ unlock, onDismiss }: { unlock: MilestoneU
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.35, ease: [0.2, 0.8, 0.3, 1] }}
           >
-            <div className="mx-auto mb-[18px] flex h-[88px] w-[88px] items-center justify-center rounded-full border-2 border-ember bg-ember/10">
-              <MilestoneIcon dayThreshold={unlock.dayThreshold} className="h-[56%] w-[56%]" />
+            <div className="mx-auto mb-[18px] flex h-[88px] w-[88px] items-center justify-center rounded-2xl border-2 border-ember bg-ember/10">
+              <MilestoneIcon dayThreshold={unlock.dayThreshold} className="h-[90%] w-[90%]" />
             </div>
             <div className="mb-2.5 font-mono text-base uppercase tracking-[.1em] text-blush-ink">Prize won</div>
             {unlock.name ? (
