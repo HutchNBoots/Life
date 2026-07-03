@@ -30,6 +30,10 @@ Reported from real pilot use: a user missed a day and had no way to fix it. Tapp
 
 Both real gaps noted in the previous version of this doc are now resolved: the backfill flow exists (this section), and backfilled entries have a visual distinction (the badge above) to attach to. The API/save-failure gap (thin blush underline + inline message on a failed save) is still open — unrelated to this change.
 
+## App version number (built)
+
+A small "Version 0.2.0" line at the bottom of Settings, sourced from `package.json`, so the pilot group can say which build they're on when reporting something. Bumped from 0.1.0 to 0.2.0 to mark everything shipped this session (Goals tab, milestones, dashboard rework, calendar backfill). One pilot report said this had "disappeared" after it shipped — re-confirmed it's present in the code on `main`; likely a stale/cached build was being viewed (see the note on this below).
+
 ## Four fixes from a pilot bug report
 
 - **"Added later" badge, renamed from "backfilled".** Reported as not matching the app's plain, human voice. The project owner picked "Added later" from a shortlist.
@@ -88,7 +92,7 @@ These are now reflected in the `ready_*.md` docs directly (not just here):
 
 ## Still open (all P1/P2, none blocking)
 
-Streak-at-risk indicator, streak milestone celebrations (7/30/100 days), undo-on-save, PIN per profile, dark/light mode, PWA manifest, the 5 remaining spirit-animal artworks, the two gaps above.
+Streak-at-risk indicator, streak milestone celebrations (7/30/100 days), undo-on-save, PIN per profile, dark/light mode, PWA manifest, the 5 remaining spirit-animal artworks, the save-failure gap above.
 
 ## Verification
 

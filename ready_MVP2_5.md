@@ -32,17 +32,20 @@ The prototype's top pill-switcher and "MVP 2.5" tag line are demo scaffolding on
 - [P0] Archive a goal (soft delete) — history and earned milestones stay saved; goal disappears from Today and the active Goals list
 - [P1] Reorder goals
 - [P2] Per-goal custom milestone schedule (defaults to the standard schedule if unset)
+- [P0] **Reported bug, not reproduced**: a rename appearing to create a duplicate goal instead of renaming in place. Tested directly (network + DB inspection) against current `main` — updates the existing row correctly, no duplicate. Added a defensive guard against double-submission anyway (Enter + blur firing back-to-back), in case that was the real cause.
 
 ## Epic 13 — Goal Milestones ("Prizes")
 - [P0] Milestone schedule per goal: **1 ("First Step"), 7, 14, 30, 60, 90, 180, 365 days** — day 1 replaced the original day-3 tier per a real pilot request, done as an in-place data migration so any already-earned day-3 unlock becomes day-1/First Step rather than being lost
 - [P0] Milestone seal grid shown inline on each goal's card in the Goals tab (earned vs. locked) — **real hand-drawn artwork for all 8 tiers** (`public/images/goal-milestones/day-{1,7,14,30,60,90,180,365}.png`, background removed, recolored to mountain ink, same treatment as spirit-tier artwork), not just the placeholder ribbon glyph
 - [P0] Centered "Prize won" celebration pop-up on hitting a milestone — seal, day count, goal name, tap-anywhere-to-dismiss
 - [P0] Milestones are kept permanently even if the goal's streak later breaks — same permanence rule as spirit animals
+- [P0] **Badge size/shape** (reported from real use — badges were reading too small): enlarged from a 56px circle at 60% icon fill to an 80px square (rounded corners) at 90% fill, in both the Goals-tab grid and the celebration pop-up. Previewed 4 size/shape options live in the app before picking this one.
+- [P0] **Tap an unlocked milestone badge for a day count + motivational line** (new this session, reported from real use) — plain, no manufactured enthusiasm (`lib/milestoneContent.ts`), shown in a small pop-up (`components/BadgeInfoModal.tsx`). Locked tiles are still tappable (their day/name is already visible in the grid either way), showing a generic "not unlocked yet" line instead.
 - [P1] Optional private note on unlock day ("what helped this stretch")
 - [P2] **Open question, unresolved:** milestone pop-up is currently bigger and more celebratory than the app's usual restraint (per `UX_DESIGN.md`'s "quiet, one signature element" principle). Worth pilot-testing whether it fits or overshoots before treating it as final.
 
 ## Epic 14 — Dashboard Changes
-- [P0] Streak counts render as tally-strike graphics, not numerals — same 4-strokes-plus-diagonal-slash motif already used for daily entries and the calendar, extended to handle arbitrary counts (grouped in 5s: e.g. a 9-day streak is one full cluster + 4 loose strokes). Day-streak cards use brass strokes; per-goal streak chips use moss, matching existing token meaning.
+- [P0] Streak counts render as tally-strike graphics, not numerals — same 4-strokes-plus-diagonal-slash motif already used for daily entries and the calendar, extended to handle arbitrary counts (grouped in 5s: e.g. a 9-day streak is one full cluster + 4 loose strokes). Day-streak cards use `ember` strokes; per-goal streak chips use `pebble` — this doc's original "brass"/"moss" were the pre-rename token names (see `ready_BACKLOG.md` Epic 10); `pebble` stands in for the old "moss" since it isn't one of this app's 7 named tokens.
 - [P0] Day streak, longest streak, and the two per-goal streak chips are grouped as one tight 2×2 block directly under the profile header — no "Your goals" label separating them
 - [P0] "Log today" CTA sits below that 2×2 block, above the calendar
 - [P0] Calendar is preserved on the dashboard — **flagging this as a regression risk**: it was accidentally dropped once already when the v2 dashboard was first built, and had to be restored. Worth a visual check against `prototype-v2-features.html` after implementation to confirm it's actually there.

@@ -23,6 +23,7 @@
 - [P0] Route/session guard: every page reads "current profile" from that stored value
 - [P0] "Switch profile" affordance — lives in Settings, not on the dashboard
 - [P0] **Bugfix (found post-build): landing after picking a profile, and on returning visits, now correctly goes to Dashboard.** It was wrongly wired to the entry screen (Today) instead — contradicted `ready_PROJECT_SCOPE.md` §3.1's "skip straight to that person's dashboard" and the original prototype's own `selectProfile()` behavior.
+- [P0] **Re-reported and re-verified this session**: a pilot report suggested this had regressed. Tested directly (fresh visit + post-picker navigation) against current `main` — both correctly land on `/dashboard`. No code change; most likely a stale/cached build was being viewed at the time. Still correct as of this session.
 - [P2] Simple 4-digit PIN per profile
 
 ## Epic 3 — Daily Entry Form
@@ -36,6 +37,7 @@
 - [P1] Visual distinction for backfilled entries — **built**: an "Added later" badge next to the date on any day other than today.
 - [P2] Undo on accidental save — not built
 - [P1] **API/save-failure state (found post-build, not on this list originally):** `ready_UX_DESIGN.md` specifies a thin blush underline + inline message on save failure; currently a failed save just silently does nothing. Real gap, worth fixing.
+- [P0] **Signed-in profile name removed from the entry screen** (reported from real use) — Today and backfilled-day views now show just the date and tally, no profile name underneath. Profile name still shows on the dashboard header and Settings.
 
 ## Epic 4 — Streaks
 - [P0] Current streak calculation, per profile
@@ -70,6 +72,7 @@ Substantially reworked this session — see `ready_PROJECT_BRIEF.md` for the ful
 - [P1] Toggle animation/haptic intensity — built, local per-device prefs (localStorage), gates both Framer Motion (via `reducedMotion="always"`) and haptics
 - [P0] **Dev section — never built, not just stripped.** The screen-jump menu was left out of the real build entirely rather than built-then-removed.
 - ~~[P2] Support >2 binary goals~~ — **dropped on request, not deferred.**
+- [P2] **App version number, shown at the bottom of Settings** (new this session) — sourced from `package.json`, so the pilot group can report which build they're on. Bumped to 0.2.0 to mark everything shipped this session.
 
 ## Epic 8 — Spirit Animals
 - [P1] `SpiritTier` seed data — built, **15 tiers** (the original 12 plus 3 MVP2-prep tiers: Chirpy Wren day 3, Steady Badger day 5, Bright Fox day 7 — see `ready_SPIRIT_ANIMALS.md`)
@@ -78,6 +81,7 @@ Substantially reworked this session — see `ready_PROJECT_BRIEF.md` for the ful
 - [P1] Unlock moment: stroke-drawn badge reveal — **built.** Not literally "stroke-drawn" for the 10 tiers with real photo-derived artwork (raster images, not paths) — those get a radial reveal + ember glow + haptic pulse instead. The 5 remaining placeholder-SVG tiers could get true stroke-draw later if wanted.
 - [P2] Collection screen (grid, locked/unlocked states) — built, now a 5-row grid (15 tiers, 3 columns)
 - [P2] Source or hand-draw the badge art — **10 of 15 done.** Real artwork (uploaded reference images, background/border removed, recolored to `mountain` ink) now used for otter, wren, panda, badger, fox, pelican, sloth, owl, capybara, flamingo. Still placeholder SVG line icons for tortoise (66), narwhal (100), stag (150), raven (250), phoenix (365) — no reference art uploaded for those yet.
+- [P2] **Tap an unlocked spirit badge for an amusing description** (new this session, reported from real use) — a real-animal-fact line tied back to the streak length (`lib/spiritContent.ts`), shown in a small pop-up (`components/BadgeInfoModal.tsx`). Distinct from the automatic "just unlocked" reveal above, which is unchanged. Locked tiles are deliberately **not** tappable — no hint at identity, matching the existing "no silhouette" rule.
 
 ## Epic 9 — Science Tab
 - [P1] Static content page rendering `ready_SCIENCE.md` content in-app — built
