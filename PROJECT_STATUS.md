@@ -50,7 +50,7 @@ These are now reflected in the `ready_*.md` docs directly (not just here):
 ## Two real gaps found late, not yet fixed
 
 - **Save-failure state isn't built at all.** `ready_UX_DESIGN.md` specifies a thin blush underline + inline message on a failed save; right now a failed save just silently does nothing.
-- **Backfilled-entry visual distinction** has nothing to attach to yet, since no backfill/edit-past-day flow exists in this POC (both are correctly gated to `ready_MVP2.md`).
+- **Backfilled-entry visual distinction** has nothing to attach to yet, since no backfill/edit-past-day flow exists in this POC (both are correctly gated to `ready_MVP2.md`). **Now confirmed as a real pain point from actual pilot use** (a user missed a day and had no way to fill it in) — see the new `ready_BACKLOG.md` Epic 5 item, which questions whether backfill specifically should be gated at all.
 
 ## Judgment calls worth a second look
 
