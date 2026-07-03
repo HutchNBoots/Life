@@ -97,6 +97,7 @@ export async function getStreakSummary(profileId: string) {
 export interface GoalMilestoneState {
   id: string;
   dayThreshold: number;
+  name: string | null;
   unlocked: boolean;
 }
 
@@ -142,6 +143,7 @@ export async function getGoalsWithMilestones(profileId: string): Promise<GoalWit
     const milestones: GoalMilestoneState[] = tiers.map((tier) => ({
       id: tier.id,
       dayThreshold: tier.dayThreshold,
+      name: tier.name,
       unlocked: longest >= tier.dayThreshold,
     }));
 

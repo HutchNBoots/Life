@@ -95,9 +95,12 @@ model ProfileSpiritUnlock {
 /// Per-goal streak "prize" milestones (ready_MVP2_5.md Epic 13) — a
 /// separate reward ladder from SpiritTier, shared across all goals/profiles.
 model GoalMilestoneTier {
-  id            String @id @default(cuid())
-  dayThreshold  Int    @unique @map("day_threshold")
-  sortOrder     Int    @default(0) @map("sort_order")
+  id           String  @id @default(cuid())
+  dayThreshold Int     @unique @map("day_threshold")
+  /// Optional display name (e.g. "First Step" for day 1); falls back to
+  /// "Day N" in the UI when unset.
+  name         String?
+  sortOrder    Int     @default(0) @map("sort_order")
 
   unlocks GoalMilestoneUnlock[]
 

@@ -50,13 +50,13 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    let milestoneUnlock: { dayThreshold: number; goalLabel: string } | null = null;
+    let milestoneUnlock: { dayThreshold: number; name: string | null; goalLabel: string } | null = null;
     if (logState === "met") {
       const goals = await getGoalsWithMilestones(profileId);
       const updatedGoal = goals.find((g) => g.id === goalId);
       const unlockedTier = updatedGoal?.milestones.find((m) => m.id === updatedGoal.justUnlockedTierId);
       if (updatedGoal?.justUnlockedTierId && unlockedTier) {
-        milestoneUnlock = { dayThreshold: unlockedTier.dayThreshold, goalLabel: updatedGoal.label };
+        milestoneUnlock = { dayThreshold: unlockedTier.dayThreshold, name: unlockedTier.name, goalLabel: updatedGoal.label };
       }
     }
 

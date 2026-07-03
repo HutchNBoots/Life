@@ -3,20 +3,12 @@
 import { useEffect } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { haptic } from "@/lib/haptics";
+import { MilestoneIcon } from "./MilestoneIcon";
 
 export interface MilestoneUnlock {
   dayThreshold: number;
+  name: string | null;
   goalLabel: string;
-}
-
-/** Same ribbon/seal glyph as components/goals/MilestoneGrid.tsx. */
-function SealIcon() {
-  return (
-    <svg viewBox="0 0 24 24" width="56%" height="56%" fill="none" stroke="#D97B4F" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
-      <circle cx={12} cy={9} r={5} />
-      <path d="M8 13l-2 7 6-3 6 3-2-7" />
-    </svg>
-  );
 }
 
 /**
@@ -47,11 +39,17 @@ export function MilestoneCelebration({ unlock, onDismiss }: { unlock: MilestoneU
             transition={{ duration: 0.35, ease: [0.2, 0.8, 0.3, 1] }}
           >
             <div className="mx-auto mb-[18px] flex h-[88px] w-[88px] items-center justify-center rounded-full border-2 border-ember bg-ember/10">
-              <SealIcon />
+              <MilestoneIcon dayThreshold={unlock.dayThreshold} className="h-[56%] w-[56%]" />
             </div>
             <div className="mb-2.5 font-mono text-base uppercase tracking-[.1em] text-blush-ink">Prize won</div>
-            <div className="font-mono text-[40px] leading-none text-ember">{unlock.dayThreshold}</div>
-            <div className="mb-3.5 mt-0.5 text-base text-mountain/60">days</div>
+            {unlock.name ? (
+              <div className="mb-3.5 font-display text-3xl leading-tight text-ember">{unlock.name}</div>
+            ) : (
+              <>
+                <div className="font-mono text-[40px] leading-none text-ember">{unlock.dayThreshold}</div>
+                <div className="mb-3.5 mt-0.5 text-base text-mountain/60">days</div>
+              </>
+            )}
             <div className="mb-5 font-display text-xl">{unlock.goalLabel}</div>
             <div className="font-mono text-base text-mountain/45">tap anywhere to dismiss</div>
           </motion.div>

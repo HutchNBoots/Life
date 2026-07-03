@@ -34,8 +34,8 @@ The prototype's top pill-switcher and "MVP 2.5" tag line are demo scaffolding on
 - [P2] Per-goal custom milestone schedule (defaults to the standard schedule if unset)
 
 ## Epic 13 — Goal Milestones ("Prizes")
-- [P0] Milestone schedule per goal: 3, 7, 14, 30, 60, 90, 180, 365 days
-- [P0] Milestone seal grid shown inline on each goal's card in the Goals tab (earned vs. locked) — visually related to the spirit-animal stamp language but a distinct glyph, so the two reward systems don't read as the same thing
+- [P0] Milestone schedule per goal: **1 ("First Step"), 7, 14, 30, 60, 90, 180, 365 days** — day 1 replaced the original day-3 tier per a real pilot request, done as an in-place data migration so any already-earned day-3 unlock becomes day-1/First Step rather than being lost
+- [P0] Milestone seal grid shown inline on each goal's card in the Goals tab (earned vs. locked) — **real hand-drawn artwork for all 8 tiers** (`public/images/goal-milestones/day-{1,7,14,30,60,90,180,365}.png`, background removed, recolored to mountain ink, same treatment as spirit-tier artwork), not just the placeholder ribbon glyph
 - [P0] Centered "Prize won" celebration pop-up on hitting a milestone — seal, day count, goal name, tap-anywhere-to-dismiss
 - [P0] Milestones are kept permanently even if the goal's streak later breaks — same permanence rule as spirit animals
 - [P1] Optional private note on unlock day ("what helped this stretch")
@@ -63,8 +63,8 @@ BinaryGoal
   (soft delete — never hard-delete a goal with history)
 
 GoalMilestoneTier
-  id, day_threshold, sort_order
-  seed: 3, 7, 14, 30, 60, 90, 180, 365 (mirrors SpiritTier's seed pattern)
+  id, day_threshold, name (nullable — e.g. "First Step" for day 1), sort_order
+  seed: 1 (First Step), 7, 14, 30, 60, 90, 180, 365 (mirrors SpiritTier's seed pattern)
 
 GoalMilestoneUnlock
   id, binary_goal_id, milestone_tier_id, unlocked_at

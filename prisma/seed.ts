@@ -31,8 +31,18 @@ const SPIRIT_TIERS = [
 ];
 
 // Per-goal "prize" milestone schedule (ready_MVP2_5.md Epic 13) — shared
-// across all goals/profiles, mirrors the SpiritTier seeding pattern.
-const GOAL_MILESTONE_DAYS = [3, 7, 14, 30, 60, 90, 180, 365];
+// across all goals/profiles, mirrors the SpiritTier seeding pattern. Day 1
+// ("First Step") replaced the original day-3 tier per a real pilot request.
+const GOAL_MILESTONE_TIERS = [
+  { dayThreshold: 1, name: "First Step" },
+  { dayThreshold: 7, name: null },
+  { dayThreshold: 14, name: null },
+  { dayThreshold: 30, name: null },
+  { dayThreshold: 60, name: null },
+  { dayThreshold: 90, name: null },
+  { dayThreshold: 180, name: null },
+  { dayThreshold: 365, name: null },
+];
 
 async function main() {
   for (const [index, name] of PROFILES.entries()) {
@@ -62,16 +72,16 @@ async function main() {
     });
   }
 
-  for (const [index, dayThreshold] of GOAL_MILESTONE_DAYS.entries()) {
+  for (const [index, tier] of GOAL_MILESTONE_TIERS.entries()) {
     await prisma.goalMilestoneTier.upsert({
-      where: { dayThreshold },
-      update: { sortOrder: index },
-      create: { dayThreshold, sortOrder: index },
+      where: { dayThreshold: tier.dayThreshold },
+      update: { name: tier.name, sortOrder: index },
+      create: { ...tier, sortOrder: index },
     });
   }
 
   console.log(
-    `Seeded ${PROFILES.length} profiles, goals, ${SPIRIT_TIERS.length} spirit tiers, and ${GOAL_MILESTONE_DAYS.length} goal milestone tiers.`,
+    `Seeded ${PROFILES.length} profiles, goals, ${SPIRIT_TIERS.length} spirit tiers, and ${GOAL_MILESTONE_TIERS.length} goal milestone tiers.`,
   );
 }
 
