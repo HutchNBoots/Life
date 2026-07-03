@@ -44,6 +44,11 @@ The project owner provided real hand-drawn artwork for the goal-milestone seals 
 - **All 8 tiers now have real artwork** — `public/images/goal-milestones/day-{1,7,14,30,60,90,180,365}.png`. Processed the same way as the spirit-tier images: background removed (the source images had a baked-in checkerboard, not real alpha — chroma-keyed it out), recolored to the `mountain` ink tone (#3B596A, matching the existing spirit artwork exactly), trimmed to content. Originals kept in `public/images/originals/` per existing convention. New shared `components/goals/MilestoneIcon.tsx` (mirrors `SpiritIcon.tsx`'s image/placeholder-fallback pattern) is used by both the Goals-tab grid and the celebration pop-up.
 - **Day 1, "First Step," replaced day 3** in the milestone schedule (schedule is now 1/7/14/30/60/90/180/365) — a real pilot request, using the day-1 shoe artwork. Added `GoalMilestoneTier.name` (nullable) for this — only day 1 has one; the rest still show "Day N". Done as an in-place data migration (`UPDATE ... WHERE day_threshold = 3`) rather than drop-and-recreate, so any already-earned day-3 unlock becomes day-1/First Step automatically instead of being orphaned.
 - The "Prize won" pop-up shows the tier's name (e.g. "First Step") instead of a bare day count when one is set.
+- **Badge size/shape**: previewed 4 options live in the app (circle vs. square, several sizes/fill percentages) before picking — square, 80px, 90% fill. Applied to both the Goals-tab grid and the celebration pop-up.
+
+## Tap-to-learn-more on badges
+
+Tapping an unlocked badge — goal milestone or spirit animal — now opens a small pop-up (`components/BadgeInfoModal.tsx`) with a day count and something motivational (goals, `lib/milestoneContent.ts`) or an amusing real-animal-fact description (spirits, `lib/spiritContent.ts`). This is additive, not a change to the existing "no modal on unlock" rule in `ready_SPIRIT_ANIMALS.md` — that rule is about the automatic celebration moment; this is a separate, deliberate, repeatable tap. **Locked spirit tiles are deliberately not tappable** (no hint at identity, matching the existing "no silhouette" rule); locked goal-milestone tiles are tappable since their day/name is already visible in the grid, showing a generic "not unlocked yet" line instead of the earned copy.
 
 ## Deployment
 

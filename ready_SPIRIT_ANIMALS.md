@@ -50,6 +50,8 @@ Unlocked animals are kept permanently. The *current companion* shown on the dash
 - On unlock: just the name and a small stroke-drawn badge, no modal.
 - Spirits screen header: "Your spirits" — plain.
 
+**New, additive: tap-to-learn-more.** Tapping an *unlocked* badge on the Spirits screen (or a goal-milestone badge on the Goals tab) opens a small pop-up with an amusing, real-animal-fact description (`lib/spiritContent.ts`) — distinct from the "on unlock, no modal" rule above, which is about the automatic celebration moment, not this deliberate, repeatable tap. Locked tiles stay inert and untappable — no hint at their identity, matching the existing "no silhouette hint" rule.
+
 ## Implementation notes for Claude Code
 - `SpiritTier` table: `id, name, streak_day_threshold, sort_order` — seed with the 12 above.
 - Track `longest_streak_reached_per_profile` separately from `current_streak`, per the unlock logic above.
