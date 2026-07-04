@@ -4,7 +4,7 @@
  * handled in components/spirits/SpiritIcon.tsx. Falls back to the plain
  * ribbon/seal glyph for any day that doesn't have art yet.
  */
-const IMAGE_DAYS = new Set([1, 7, 14, 30, 60, 90, 180, 365]);
+const IMAGE_DAYS = new Set([7, 14, 30, 60, 90, 180, 365]);
 
 export function MilestoneIcon({ dayThreshold, className }: { dayThreshold: number; className?: string }) {
   if (IMAGE_DAYS.has(dayThreshold)) {

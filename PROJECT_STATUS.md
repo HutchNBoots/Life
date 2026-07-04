@@ -50,6 +50,10 @@ The project owner provided real hand-drawn artwork for the goal-milestone seals 
 - The "Prize won" pop-up shows the tier's name (e.g. "First Step") instead of a bare day count when one is set.
 - **Badge size/shape**: previewed 4 options live in the app (circle vs. square, several sizes/fill percentages) before picking — square, 80px, 90% fill. Applied to both the Goals-tab grid and the celebration pop-up.
 
+## "First Step" (day 1) dropped, back to day 3
+
+A single day felt too easy to count as an earned prize, so the day-1 "First Step" tier described just above was reverted — the milestone schedule is back to **3/7/14/30/60/90/180/365**, and the first tier is unnamed again ("Day 3"). Same in-place-migration approach as the original day-3→day-1 change, run in reverse (`UPDATE ... WHERE day_threshold = 1`), so anyone who'd already earned "First Step" keeps that unlock, now recorded as day 3. The day-1 shoe artwork is no longer wired in (`MilestoneIcon.tsx`'s image set dropped `1`; the derived PNG was deleted, the original upload kept in `public/images/originals/` per convention) — day 3 falls back to the placeholder ribbon glyph, same as it did before the shoe artwork existed.
+
 ## Tap-to-learn-more on badges
 
 Tapping an unlocked badge — goal milestone or spirit animal — now opens a small pop-up (`components/BadgeInfoModal.tsx`) with a day count and something motivational (goals, `lib/milestoneContent.ts`) or an amusing real-animal-fact description (spirits, `lib/spiritContent.ts`). This is additive, not a change to the existing "no modal on unlock" rule in `ready_SPIRIT_ANIMALS.md` — that rule is about the automatic celebration moment; this is a separate, deliberate, repeatable tap. **Locked spirit tiles are deliberately not tappable** (no hint at identity, matching the existing "no silhouette" rule); locked goal-milestone tiles are tappable since their day/name is already visible in the grid, showing a generic "not unlocked yet" line instead of the earned copy.

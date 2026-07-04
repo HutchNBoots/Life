@@ -35,8 +35,8 @@ The prototype's top pill-switcher and "MVP 2.5" tag line are demo scaffolding on
 - [P0] **Reported bug, not reproduced**: a rename appearing to create a duplicate goal instead of renaming in place. Tested directly (network + DB inspection) against current `main` — updates the existing row correctly, no duplicate. Added a defensive guard against double-submission anyway (Enter + blur firing back-to-back), in case that was the real cause.
 
 ## Epic 13 — Goal Milestones ("Prizes")
-- [P0] Milestone schedule per goal: **1 ("First Step"), 7, 14, 30, 60, 90, 180, 365 days** — day 1 replaced the original day-3 tier per a real pilot request, done as an in-place data migration so any already-earned day-3 unlock becomes day-1/First Step rather than being lost
-- [P0] Milestone seal grid shown inline on each goal's card in the Goals tab (earned vs. locked) — **real hand-drawn artwork for all 8 tiers** (`public/images/goal-milestones/day-{1,7,14,30,60,90,180,365}.png`, background removed, recolored to mountain ink, same treatment as spirit-tier artwork), not just the placeholder ribbon glyph
+- [P0] Milestone schedule per goal: **3, 7, 14, 30, 60, 90, 180, 365 days** — briefly moved the first tier to day 1 ("First Step") per an earlier pilot request, then reverted back to day 3 per a later request (a single day felt too easy to count as an earned prize). Both changes done as in-place data migrations so an already-earned unlock is preserved across the threshold change rather than lost.
+- [P0] Milestone seal grid shown inline on each goal's card in the Goals tab (earned vs. locked) — **real hand-drawn artwork for 7 of the 8 tiers** (`public/images/goal-milestones/day-{7,14,30,60,90,180,365}.png`, background removed, recolored to mountain ink, same treatment as spirit-tier artwork), falling back to the placeholder ribbon glyph for day 3 since the art that had been sourced for the first tier was specifically a "first step" shoe, which no longer fits
 - [P0] Centered "Prize won" celebration pop-up on hitting a milestone — seal, day count, goal name, tap-anywhere-to-dismiss
 - [P0] Milestones are kept permanently even if the goal's streak later breaks — same permanence rule as spirit animals
 - [P0] **Badge size/shape** (reported from real use — badges were reading too small): enlarged from a 56px circle at 60% icon fill to an 80px square (rounded corners) at 90% fill, in both the Goals-tab grid and the celebration pop-up. Previewed 4 size/shape options live in the app before picking this one.
@@ -66,8 +66,8 @@ BinaryGoal
   (soft delete — never hard-delete a goal with history)
 
 GoalMilestoneTier
-  id, day_threshold, name (nullable — e.g. "First Step" for day 1), sort_order
-  seed: 1 (First Step), 7, 14, 30, 60, 90, 180, 365 (mirrors SpiritTier's seed pattern)
+  id, day_threshold, name (nullable — unused since the day-1 "First Step" tier was dropped, but kept for any future named tier), sort_order
+  seed: 3, 7, 14, 30, 60, 90, 180, 365 (mirrors SpiritTier's seed pattern)
 
 GoalMilestoneUnlock
   id, binary_goal_id, milestone_tier_id, unlocked_at

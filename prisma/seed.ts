@@ -31,10 +31,12 @@ const SPIRIT_TIERS = [
 ];
 
 // Per-goal "prize" milestone schedule (ready_MVP2_5.md Epic 13) — shared
-// across all goals/profiles, mirrors the SpiritTier seeding pattern. Day 1
-// ("First Step") replaced the original day-3 tier per a real pilot request.
+// across all goals/profiles, mirrors the SpiritTier seeding pattern. The
+// day-1 "First Step" tier (added per an earlier pilot request) was dropped
+// again — a single day felt too easy to count as an earned prize, so the
+// first tier is back to day 3, unnamed.
 const GOAL_MILESTONE_TIERS = [
-  { dayThreshold: 1, name: "First Step" },
+  { dayThreshold: 3, name: null },
   { dayThreshold: 7, name: null },
   { dayThreshold: 14, name: null },
   { dayThreshold: 30, name: null },
