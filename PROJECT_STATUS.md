@@ -28,7 +28,8 @@ These are now reflected in the `ready_*.md` docs directly (not just here):
 - **Scrollbar hidden** on every scrolling screen (was showing the default grey/white browser scrollbar).
 - **Dashboard companion badge**: enlarged (~83px, roughly the height of the profile name), and defaults to the first spirit tier when a profile has zero streak so an animal is always shown rather than a blank circle.
 - **Spirit-animal unlock reveal, built**: first time a tier newly unlocks, the badge does a radial reveal + ember glow + haptic pulse, with "just unlocked" copy. Fires once per tier per profile.
-- **10 of 15 spirit-animal tiers now have real artwork** (uploaded reference images, cleaned up and recolored to the app's ink tone), replacing the placeholder line icons. 5 tiers (tortoise, narwhal, stag, raven, phoenix) still await art.
+- **9 of 14 spirit-animal tiers now have real artwork** (uploaded reference images, cleaned up and recolored to the app's ink tone), replacing the placeholder line icons. 5 tiers (tortoise, narwhal, stag, raven, phoenix) still await art.
+- **Day-1 "Curious Otter" tier dropped.** A single day felt too easy to count as an earned trophy, so the ladder now starts at day 3 (Chirpy Wren). Anyone who'd already unlocked it on day 1 loses it — the seed script now prunes retired tiers (and cascades to `profile_spirit_unlocks`) on every deploy.
 - **Explicitly dropped, not deferred**: goal-adherence graph, month-over-month comparison, >2 binary goals support, jump-to-date/year calendar view. These were on the original backlog as P1/P2 items; they've been decided against rather than left pending.
 
 ## Two real gaps found late, not yet fixed

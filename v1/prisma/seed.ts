@@ -9,11 +9,12 @@ const PROFILES = ["Alex", "Sam", "Jo", "Lex"];
 
 const DEFAULT_GOALS = ["avoided sugar", "no wine"];
 
-// 15-tier ladder per ready_SPIRIT_ANIMALS.md — includes the 3 early tiers
-// (days 3, 5, 7) added for future MVP2 feature-gating; only the tiers
-// themselves are seeded here, no MVP2 gating logic.
+// 14-tier ladder per ready_SPIRIT_ANIMALS.md — includes the 2 early tiers
+// (days 5, 7) added for future MVP2 feature-gating; only the tiers
+// themselves are seeded here, no MVP2 gating logic. The original day-1
+// "first entry" tier (Curious Otter) was dropped — the first tier is now
+// day 3, so it takes a real 3-day streak to earn anything.
 const SPIRIT_TIERS = [
-  { name: "Curious Otter", streakDayThreshold: 1 },
   { name: "Chirpy Wren", streakDayThreshold: 3 },
   { name: "Party Panda", streakDayThreshold: 4 },
   { name: "Steady Badger", streakDayThreshold: 5 },
@@ -56,6 +57,15 @@ async function main() {
       update: { streakDayThreshold: tier.streakDayThreshold, sortOrder: index },
       create: { ...tier, sortOrder: index },
     });
+  }
+
+  // Drop any tier no longer in the ladder above (e.g. Curious Otter, day 1,
+  // retired in favor of a real 3-day-minimum first tier). Cascades to
+  // profile_spirit_unlocks, so anyone who'd already earned it loses it too.
+  const currentNames = SPIRIT_TIERS.map((t) => t.name);
+  const removed = await prisma.spiritTier.deleteMany({ where: { name: { notIn: currentNames } } });
+  if (removed.count > 0) {
+    console.log(`Removed ${removed.count} retired spirit tier(s).`);
   }
 
   console.log(`Seeded ${PROFILES.length} profiles, goals, and ${SPIRIT_TIERS.length} spirit tiers.`);

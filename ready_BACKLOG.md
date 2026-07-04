@@ -71,12 +71,12 @@ Substantially reworked this session — see `ready_PROJECT_BRIEF.md` for the ful
 - ~~[P2] Support >2 binary goals~~ — **dropped on request, not deferred.**
 
 ## Epic 8 — Spirit Animals
-- [P1] `SpiritTier` seed data — built, **15 tiers** (the original 12 plus 3 MVP2-prep tiers: Chirpy Wren day 3, Steady Badger day 5, Bright Fox day 7 — see `ready_SPIRIT_ANIMALS.md`)
+- [P1] `SpiritTier` seed data — built, **14 tiers** (the original 12, minus the day-1 "Curious Otter" tier which was dropped, plus 2 MVP2-prep tiers: Steady Badger day 5, Bright Fox day 7 — see `ready_SPIRIT_ANIMALS.md`). Chirpy Wren (day 3, also MVP2-prep) is now the first tier in the ladder.
 - [P1] Track longest streak reached per profile (drives permanent unlocks) — built
 - [P1] Dashboard: current companion badge + "N days to [next animal]" copy — built, part of the combined header. Also defaults to the first tier when a profile has zero streak, so an animal is always shown rather than a blank badge (judgment call, not spec'd either way)
-- [P1] Unlock moment: stroke-drawn badge reveal — **built.** Not literally "stroke-drawn" for the 10 tiers with real photo-derived artwork (raster images, not paths) — those get a radial reveal + ember glow + haptic pulse instead. The 5 remaining placeholder-SVG tiers could get true stroke-draw later if wanted.
-- [P2] Collection screen (grid, locked/unlocked states) — built, now a 5-row grid (15 tiers, 3 columns)
-- [P2] Source or hand-draw the badge art — **10 of 15 done.** Real artwork (uploaded reference images, background/border removed, recolored to `mountain` ink) now used for otter, wren, panda, badger, fox, pelican, sloth, owl, capybara, flamingo. Still placeholder SVG line icons for tortoise (66), narwhal (100), stag (150), raven (250), phoenix (365) — no reference art uploaded for those yet.
+- [P1] Unlock moment: stroke-drawn badge reveal — **built.** Not literally "stroke-drawn" for the 9 tiers with real photo-derived artwork (raster images, not paths) — those get a radial reveal + ember glow + haptic pulse instead. The 5 remaining placeholder-SVG tiers could get true stroke-draw later if wanted.
+- [P2] Collection screen (grid, locked/unlocked states) — built, 14 tiers in a 3-column grid (data-driven, not a fixed row count)
+- [P2] Source or hand-draw the badge art — **9 of 14 done.** Real artwork (uploaded reference images, background/border removed, recolored to `mountain` ink) now used for wren, panda, badger, fox, pelican, sloth, owl, capybara, flamingo. Still placeholder SVG line icons for tortoise (66), narwhal (100), stag (150), raven (250), phoenix (365) — no reference art uploaded for those yet.
 
 ## Epic 9 — Science Tab
 - [P1] Static content page rendering `ready_SCIENCE.md` content in-app — built

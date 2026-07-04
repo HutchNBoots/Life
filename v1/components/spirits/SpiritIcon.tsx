@@ -5,7 +5,6 @@
  * below for tiers without real art yet — see ready_BACKLOG.md Epic 8.
  */
 const IMAGE_ICONS = new Set([
-  "otter",
   "wren",
   "panda",
   "badger",
@@ -20,14 +19,6 @@ const S = { stroke: "#3B596A", strokeWidth: 2.4, fill: "none", strokeLinecap: "r
 const DOT = { fill: "#3B596A" };
 
 const ICONS: Record<string, React.ReactNode> = {
-  otter: (
-    <>
-      <circle cx={20} cy={22} r={10} {...S} />
-      <circle cx={16} cy={19} r={0.8} {...DOT} />
-      <circle cx={24} cy={19} r={0.8} {...DOT} />
-      <path d="M17 25c1 1.2 2 1.6 3 1.6s2-.4 3-1.6" {...S} />
-    </>
-  ),
   wren: (
     <>
       <circle cx={19} cy={23} r={8} {...S} />
@@ -132,7 +123,6 @@ const ICONS: Record<string, React.ReactNode> = {
 
 /** Maps a spirit tier name to its icon key. */
 export const SPIRIT_ICON_BY_NAME: Record<string, string> = {
-  "Curious Otter": "otter",
   "Chirpy Wren": "wren",
   "Party Panda": "panda",
   "Steady Badger": "badger",
